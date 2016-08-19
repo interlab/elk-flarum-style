@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<!DOCTYPE package-info SYSTEM "http://www.elkarte.net/site/package-info">
+<!--
+/**
+ * @package flarumstyle
+ *
+ * @author inter
+ * @copyright 2016 inter
+ * @license MIT
+ * @version 0.0.1
+ *
+ */
+-->
+<package-info xmlns="http://www.elkarte.net/site/package-info" xmlns:elk="http://www.elkarte.net/">
+    <id>inter:flarumstyle</id>
+    <name>FlarumStyle</name>
+    <version>0.0.1</version>
+    <type>addon</type>
+    <install for="1.0.1 - 1.0.99">
+        <readme type="inline">This will install FlarumStyle Addon</readme>
+        <require-file name="FlarumStyle.hooks.php" destination="SOURCEDIR" />
+        <require-file name="FlarumStyle.subs.php" destination="SUBSDIR" />
+        <require-file name="FlarumStyle.controller.php" destination="CONTROLLERDIR" />
+        <require-file name="FlarumStyle.template.php" destination="THEMEDIR" />
+        <require-dir name="css" destination="THEMEDIR" />
+        <require-dir name="scripts" destination="THEMEDIR" />
+        <require-file name="languages/english/FlarumStyle.english.php" destination="LANGUAGEDIR/english" />
+        <require-file name="languages/russian/FlarumStyle.russian.php" destination="LANGUAGEDIR/russian" />
+        <hook hook="integrate_action_frontpage" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_action_frontpage" />
+        <hook hook="integrate_board_tree" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_board_tree" />
+        <hook hook="integrate_board_tree_query" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_board_tree_query" />
+        <hook hook="integrate_modify_board" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_modify_board" />
+        <hook hook="integrate_save_board" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_save_board" />
+        <!--<code>Hooks.php</code>-->
+        <database>install.php</database>
+        <redirect url="?action=admin;area=addonsettings;sa=flarumstyle" timeout="500" />
+    </install>
+
+    <uninstall for="1.0.1 - 1.0.99">
+        <readme type="inline">This will uninstall FlarumStyle Addon</readme>
+        <remove-file name="SOURCEDIR/FlarumStyle.hooks.php" />
+        <remove-file name="SUBSDIR/FlarumStyle.subs.php" />
+        <remove-file name="CONTROLLERDIR/FlarumStyle.controller.php" />
+        <remove-file name="THEMEDIR/FlarumStyle.template.php" />
+        <remove-file name="THEMEDIR/css/flarumstyle.css" />
+        <remove-file name="THEMEDIR/scripts/flarumstyle.js" />
+        <!--<remove-dir name="EXTDIR/flarumstyle_lib" />-->
+        <remove-file name="LANGUAGEDIR/english/FlarumStyle.english.php" />
+        <remove-file name="LANGUAGEDIR/russian/FlarumStyle.russian.php" />
+        <hook reverse="true" hook="integrate_action_frontpage" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_action_frontpage" />
+        <hook reverse="true" hook="integrate_board_tree" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_board_tree" />
+        <hook reverse="true" hook="integrate_board_tree_query" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_board_tree_query" />
+        <hook reverse="true" hook="integrate_modify_board" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_modify_board" />
+        <hook reverse="true" hook="integrate_save_board" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_save_board" />
+        <!--<code>Hooks.php</code>-->
+        <!--<database>uninstall.php</database>-->
+        <redirect url="?action=admin;area=packages" timeout="500" />
+    </uninstall>
+</package-info>

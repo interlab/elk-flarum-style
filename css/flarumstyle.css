@@ -1,0 +1,341 @@
+
+.flarum-flex-container {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    -webkit-align-content: flex-start;
+    -ms-flex-line-pack: start;
+    align-content: flex-start;
+    -webkit-align-items: flex-start;
+    -ms-flex-align: start;
+    align-items: flex-start;
+    }
+
+.flarum-flex-item:nth-child(1) {
+    -webkit-order: 0;
+    -ms-flex-order: 0;
+    order: 0;
+    -webkit-flex: 1 0 0;
+    -ms-flex: 1 0 0;
+    flex: 1 0 0;
+    -webkit-align-self: auto;
+    -ms-flex-item-align: auto;
+    align-self: auto;
+    }
+
+.flarum-flex-item:nth-child(2) {
+    -webkit-order: 0;
+    -ms-flex-order: 0;
+    order: 0;
+    -webkit-flex: 3 0 0;
+    -ms-flex: 3 0 0;
+    flex: 3 0 0;
+    -webkit-align-self: auto;
+    -ms-flex-item-align: auto;
+    align-self: auto;
+    }
+
+.flarum-bold {
+    font-weight: bold !important;
+}
+
+a.flarum-start-discussion {
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    color: #667d99;
+    padding-left: 20px;
+    padding-right: 20px;
+    
+    margin-bottom: 20px;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    white-space: nowrap;
+    line-height: 20px;
+    padding: 8px 13px;
+    border-radius: 4px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background: #e7edf3;
+    border: 0;
+
+    font-weight: bold;
+    width: 15rem;
+    display: block;
+    margin: 0 0px 20px 0px;
+    /*text-shadow: 1px 1px 3px #667d99;*/
+}
+
+a.flarum-start-discussion:hover {
+    text-shadow: 1px 1px 3px #f36322;
+    background-color: #f36322;
+    text-decoration: none;
+    color: #fff;
+}
+
+.flarum-icon {
+    border-radius: 4px;
+    float: left;
+
+ 
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgb(147, 84, 202);
+    background-image: none;
+    background-origin: padding-box;
+    background-position: 0% 0%;
+    background-repeat: repeat;
+    background-size: auto auto;
+    box-sizing: border-box;
+    color: rgb(102, 125, 153);
+    cursor: pointer;
+    display: block;
+
+    font-size: 15px;
+    font-weight: 400;
+    height: 16px;
+    line-height: 1.5;
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+    margin-left: -30px;
+    margin-top: 1px;
+    text-align: left;
+    vertical-align: -3px;
+    white-space: nowrap;
+    width: 16px;
+}
+
+.flarum-icon-alltopics {
+    float: left;
+    cursor: pointer;
+    display: block;
+    font-size: 15px;
+    font-weight: 400;
+    height: 16px;
+    line-height: 1.5;
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+    margin-left: -28px;
+
+    text-align: left;
+    vertical-align: -3px;
+    white-space: nowrap;
+    width: 16px;
+}
+
+.flarum-menu {
+    display: block;
+}
+
+.flarum-menu li {
+    list-style: none;
+    text-align: left;
+    color: #111;
+    font-size: 13px;
+    line-height: 1.5;
+    text-decoration: none;
+}
+
+.flarum-li-ropdown-separator {
+    margin: 8px 0;
+    height: 1px;
+}
+
+a.flarum-menu-default-a-color {
+    color: #667d99;
+}
+a.flarum-menu-default-a-color:hover {
+    color: #f36322;
+}
+
+.flarum-board-child {
+    margin-left: 1.5rem;
+}
+
+.flarum-menu li a {
+    color: #667d99;
+    text-decoration: none;
+    padding: 8px 0px 8px 20px;
+
+
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: transparent;
+    background-image: none;
+    background-origin: padding-box;
+    background-position: 0% 0%;
+    background-repeat: repeat;
+    background-size: auto auto;
+    border-bottom-color: rgb(102, 125, 153);
+    border-bottom-style: none;
+    border-bottom-width: 0px;
+    border-image-outset: 0 0 0 0;
+    border-image-repeat: stretch stretch;
+    border-image-slice: 100% 100% 100% 100%;
+    border-image-source: none;
+    border-image-width: 1 1 1 1;
+    border-left-color: rgb(102, 125, 153);
+    border-left-style: none;
+    border-left-width: 0px;
+    border-right-color: rgb(102, 125, 153);
+    border-right-style: none;
+    border-right-width: 0px;
+    border-top-color: rgb(102, 125, 153);
+    border-top-style: none;
+    border-top-width: 0px;
+    box-shadow: none;
+    box-sizing: border-box;
+    color: rgb(102, 125, 153);
+    cursor: pointer;
+    display: block;
+    font-family: "Open Sans",Helvetica,Arial,sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 19.5px;
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    padding-bottom: 8px;
+    padding-left: 30px;
+    padding-right: 0px;
+    padding-top: 8px;
+    text-align: left;
+    text-decoration: none;
+    text-decoration-color: rgb(102, 125, 153);
+    text-decoration-line: none;
+    text-decoration-style: solid;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 190px;
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+}
+.flarum-menu li a:hover {
+    color: #f36322;
+}
+.flarum-menu li a:focus {
+    outline: none;
+}
+
+.flarum-select-sort {
+    padding-right: 30px;
+    padding: 7px 13px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #667d99;
+    background-color: #e7edf3;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    padding-right: 30px;
+    height: 36px !important;
+    max-height: 36px !important;
+}
+
+.flarum-avatar img {
+    float: left;
+    margin-right: .5rem;
+    margin-top: 3px;
+    width: 36px;
+    height: 36px;
+    border-radius: 36px;
+    font-size: 18px;
+    line-height: 36px;
+}
+
+.flarum-errorbox-topics {
+    display: none;
+}
+
+.flarum-topics-header {
+    margin: 0 0 5px 8px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.flarum-topic-box {
+    border-radius: 4px;
+    padding: 10px;
+    margin: 0;
+}
+
+.flarum-topic-box:hover {
+    background: #f3f6f9;
+}
+
+.flarum-topic-a {
+    /*
+    max-width: 50rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
+    */
+}
+
+.flarum-right-info {
+    float: right;
+}
+
+.flarum-right-info div {
+    float: right;
+    margin: 0 4px;
+}
+
+.flarum-body-topic a {
+    color: #201111;
+}
+
+.flarum-board-labels {
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.flarum-board-label, .flarum-board-label a {
+    color: #fff !important;
+}
+.flarum-board-label {
+    border-radius: 4px;
+    color: rgb(72, 191, 131);
+    background-color: rgb(72, 191, 131);
+    color: #fff !important;
+    box-sizing: border-box;
+    line-height: 1.5;
+    font-family: "Open Sans",Helvetica,Arial,sans-serif;
+    font-size: 85%;
+    font-weight: 600;
+    display: inline-block;
+    padding: .1em .5em;
+}
+.flarum-board-label a {
+    text-decoration: none;
+}
+
+.flarum-footer-topic {
+    font-size: 12px;
+    color: #667d99;
+}
+.flarum-footer-topic a {
+    color: #667d99;
+}
+.flarum-footer-topic:hover, .flarum-footer-topic:hover a {
+    color: #667DA3;
+}
