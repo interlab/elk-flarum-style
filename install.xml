@@ -15,7 +15,7 @@
 							<span class="smalltext">FlarumStyle Mod</span>
 						</dt>
 						<dd>
-							<input type="color" id="flarum-board-color" name="flarum_board_color" value="', isset($context['board']['flarum_board_color']) ? $context['board']['flarum_board_color'] : '#A0B9E5', '" size="30" class="input_text" />
+							<input type="color" id="flarum-board-color" name="flarum_board_color" value="', !empty($context['board']['flarum_board_color']) ? $context['board']['flarum_board_color'] : '#A0B9E5', '" size="30" class="input_text" />
 						</dd>]]></add>
 		</operation>
 	</file>
