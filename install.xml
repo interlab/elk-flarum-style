@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE modification SYSTEM "http://www.elkarte.net/site/modification">
+
+<modification xmlns="http://www.elkarte.net/site/modification" xmlns:elk="http://www.elkarte.net/">
+	<id>inter:flarumstyle</id>
+
+	<file name="THEMEDIR/ManageBoards.template.php">
+		<operation>
+			<search position="before"><![CDATA[						<dd>
+							<textarea id="desc" name="desc" rows="3" cols="35" style="' . (isBrowser('is_ie8') ? 'width: 635px; max-width: 99%; min-width: 99%' : 'width: 99%') . ';">', $context['board']['description'], '</textarea>
+						</dd>]]></search>
+			<add><![CDATA[
+						<dt>
+							<strong><label for="boardcolor">Board color</label>:</strong><br />
+							<span class="smalltext">FlarumStyle Mod</span>
+						</dt>
+						<dd>
+							<input type="color" id="flarum-board-color" name="flarum_board_color" value="', $context['board']['flarum_board_color'] ? $context['board']['flarum_board_color'] : '#E7EDF3', '" size="30" class="input_text" />
+						</dd>]]></add>
+		</operation>
+	</file>
+
+</modification>

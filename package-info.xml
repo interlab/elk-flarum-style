@@ -31,6 +31,7 @@
         <hook hook="integrate_board_tree_query" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_board_tree_query" />
         <hook hook="integrate_modify_board" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_modify_board" />
         <hook hook="integrate_save_board" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_save_board" />
+        <modification>install.xml</modification>
         <!--<code>Hooks.php</code>-->
         <database>install.php</database>
         <redirect url="?action=admin;area=addonsettings;sa=flarumstyle" timeout="500" />
@@ -52,6 +53,7 @@
         <hook reverse="true" hook="integrate_board_tree_query" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_board_tree_query" />
         <hook reverse="true" hook="integrate_modify_board" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_modify_board" />
         <hook reverse="true" hook="integrate_save_board" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_save_board" />
+        <modification reverse="true">install.xml</modification>
         <!--<code>Hooks.php</code>-->
         <!--<database>uninstall.php</database>-->
         <redirect url="?action=admin;area=packages" timeout="500" />
