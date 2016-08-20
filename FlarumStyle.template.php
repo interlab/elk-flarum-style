@@ -56,6 +56,7 @@ function template_flarumstyle_home()
         <option value="new">Newest</option>
         <option value="old">Oldest</option>
     </select>
+    <i class="icon fa fa-fw fa-sort flarum-Select-caret"></i>
     </div>
     <div class="flarum-errorbox-topics" id="flarum-errorbox-topics"></div>
     <div class="flarum-topics-body">';

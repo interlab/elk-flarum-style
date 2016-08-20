@@ -31,6 +31,8 @@
         <hook hook="integrate_board_tree_query" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_board_tree_query" />
         <hook hook="integrate_modify_board" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_modify_board" />
         <hook hook="integrate_save_board" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_save_board" />
+        <hook hook="integrate_sa_modify_modifications" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_sa_modify_modifications" />
+        <hook hook="integrate_admin_areas" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_admin_areas" />
         <modification>install.xml</modification>
         <!--<code>Hooks.php</code>-->
         <database>install.php</database>
@@ -53,6 +55,8 @@
         <hook reverse="true" hook="integrate_board_tree_query" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_board_tree_query" />
         <hook reverse="true" hook="integrate_modify_board" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_modify_board" />
         <hook reverse="true" hook="integrate_save_board" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_save_board" />
+        <hook  reverse="true" hook="integrate_sa_modify_modifications" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_sa_modify_modifications" />
+        <hook  reverse="true" hook="integrate_admin_areas" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_admin_areas" />
         <modification reverse="true">install.xml</modification>
         <!--<code>Hooks.php</code>-->
         <!--<database>uninstall.php</database>-->

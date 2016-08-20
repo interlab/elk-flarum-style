@@ -237,17 +237,56 @@ a.flarum-menu-default-a-color:hover {
 }
 
 .flarum-select-sort {
-    padding-right: 30px;
-    padding: 7px 13px;
-    font-size: 13px;
-    line-height: 1.5;
-    color: #667d99;
-    background-color: #e7edf3;
-    border: 2px solid transparent;
-    border-radius: 4px;
-    padding-right: 30px;
+	display: inline-block;
     height: 36px !important;
     max-height: 36px !important;
+    min-height: 36px !important;
+    padding: 0 30px 0 8px;
+	font-size: 13px;
+	line-height: 1.5;
+	color: #667d99;
+	background-color: #e7edf3;
+	border: 2px solid transparent;
+	border-radius: 4px;
+	-webkit-transition: border-color .15s, background .15s;
+	-o-transition: border-color .15s, background .15s;
+	transition: border-color .15s, background .15s;
+   -webkit-appearance: none;
+   -moz-appearance:    none;
+   appearance:            none;
+}
+
+select.flarum-select-sort:hover {
+    border: 2px solid transparent;
+}
+select.flarum-select-sort:focus {
+	background-color: #fff;
+	color: #111;
+    border: 2px solid transparent;
+	border-color: #e7672e;
+	outline: none
+}
+select.flarum-select-sort::-moz-placeholder {
+	/*! color: #667d99; */opacity: 1
+}
+select.flarum-select-sort:-ms-input-placeholder {
+	color: #667d99
+}
+select.flarum-select-sort::-webkit-input-placeholder {
+	color: #667d99
+}
+select.flarum-select-sort[disabled], select.flarum-select-sort[readonly] {
+	opacity: 0.5
+}
+select.flarum-select-sort[disabled] {
+	cursor: disallowed
+}
+
+.flarum-Select-caret {
+    margin-left: -30px;
+    pointer-events: none;
+    color: #667d99;
+    vertical-align: middle;
 }
 
 .flarum-avatar img {
