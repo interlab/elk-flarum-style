@@ -69,7 +69,7 @@ function template_flarumstyle_home()
                 <div class="flarum-right-info">
                 <div><i class="fa fa-eye" aria-hidden="true"></i> ', $topic['views'], '</div>
                 <div><i class="fa fa-comment-o" aria-hidden="true"></i> ', $topic['replies'], '</div>
-                <div class="flarum-board-labels"><span class="flarum-board-label" style="background-color: ', $topic['flarum_board_color'], '"><i class="fa fa-folder-o" aria-hidden="true"></i> ', $topic['board']['link'], '</span></div>
+                <div class="flarum-board-labels"><span class="flarum-board-label"', (empty($topic['flarum_board_color']) ? '' : ' style="background-color: '.$topic['flarum_board_color'].'"'), '><i class="fa fa-folder-o" aria-hidden="true"></i> ', $topic['board']['link'], '</span></div>
                 </div>
             </div>
             <div class="flarum-footer-topic">

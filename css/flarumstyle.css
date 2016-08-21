@@ -353,8 +353,7 @@ select.flarum-select-sort[disabled] {
 }
 .flarum-board-label {
     border-radius: 4px;
-    color: rgb(72, 191, 131);
-    background-color: rgb(72, 191, 131);
+    background-color: rgb(160, 185, 229);
     color: #fff !important;
     box-sizing: border-box;
     line-height: 1.5;
