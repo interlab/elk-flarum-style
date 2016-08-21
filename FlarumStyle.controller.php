@@ -8,8 +8,13 @@ class FlarumStyle_Controller
     {
         global $context, $txt;
 
-        if (isset($_GET['sa']))
+        if (!FlarumStyle::$enable) {
+            die('FlarumStyle addon is not enabled.');
+        }
+
+        if (isset($_GET['sa'])) {
             return (new self())->parse_sa_request($_GET['sa']);
+        }
 
         loadTemplate('FlarumStyle');
         loadCSSFile('flarumstyle.css');

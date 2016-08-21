@@ -4,8 +4,17 @@
 
 class FlarumStyle
 {
+    public static $enable = false;
+
     public static function integrate_action_frontpage(&$default_action)
     {
+        global $modSettings;
+
+        self::$enable = (bool) $modSettings['flarumstyle_enabled'];
+        if (!self::$enable) {
+            return;
+        }
+
 		$default_action = array(
 			'file' => CONTROLLERDIR . '/FlarumStyle.controller.php',
 			'controller' => 'FlarumStyle_Controller',
@@ -20,10 +29,14 @@ class FlarumStyle
 
     public static function integrate_actions(&$actionArray, &$adminActions)
     {
+        if (!self::$enable) {
+            return;
+        }
+
         $actionArray['flarumstyle'] = ['FlarumStyle.controller.php', 'FlarumStyle_Controller', 'action_index'];
         //loadLanguage('FlarumStyle'); 
     }
-    
+
     // Boards.subs.php
     public static function integrate_board_tree_query(&$query)
     {

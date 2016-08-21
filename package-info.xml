@@ -27,6 +27,7 @@
         <require-file name="languages/english/FlarumStyle.english.php" destination="LANGUAGEDIR/english" />
         <require-file name="languages/russian/FlarumStyle.russian.php" destination="LANGUAGEDIR/russian" />
         <hook hook="integrate_action_frontpage" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_action_frontpage" />
+        <hook hook="integrate_actions" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_actions" />
         <hook hook="integrate_board_tree" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_board_tree" />
         <hook hook="integrate_board_tree_query" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_board_tree_query" />
         <hook hook="integrate_modify_board" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_modify_board" />
@@ -51,6 +52,7 @@
         <remove-file name="LANGUAGEDIR/english/FlarumStyle.english.php" />
         <remove-file name="LANGUAGEDIR/russian/FlarumStyle.russian.php" />
         <hook reverse="true" hook="integrate_action_frontpage" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_action_frontpage" />
+        <hook reverse="true" hook="integrate_actions" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_actions" />
         <hook reverse="true" hook="integrate_board_tree" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_board_tree" />
         <hook reverse="true" hook="integrate_board_tree_query" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_board_tree_query" />
         <hook reverse="true" hook="integrate_modify_board" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_modify_board" />
