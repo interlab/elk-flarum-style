@@ -15,11 +15,11 @@ class FlarumStyle
             return;
         }
 
-		$default_action = array(
+		$default_action = [
 			'file' => CONTROLLERDIR . '/FlarumStyle.controller.php',
 			'controller' => 'FlarumStyle_Controller',
 			'function' => 'action_index'
-		);
+		];
 
         if (file_exists(SOURCEDIR . '/libs/vendor/autoload.php')) {
             require_once SOURCEDIR . '/libs/vendor/autoload.php';
@@ -34,7 +34,7 @@ class FlarumStyle
         }
 
         $actionArray['flarumstyle'] = ['FlarumStyle.controller.php', 'FlarumStyle_Controller', 'action_index'];
-        //loadLanguage('FlarumStyle'); 
+        //loadLanguage('FlarumStyle');
     }
 
     // Boards.subs.php
@@ -67,7 +67,7 @@ class FlarumStyle
             $boardUpdateParameters['flarum_board_color'] = $boardOptions['flarum_board_color'];
         }
     }
-    
+
     // integrate_admin_areas
     // Menu.subs.php - 87
     public static function integrate_admin_areas(&$admin_areas)
@@ -98,7 +98,7 @@ class FlarumStyle
         $fsSettings = new Settings_Form();
 
         $txt['flarumstyle_enabled'] = 'Enable Flarum Style addon';
-        
+
         // All the options, well at least some of them!
         $config_vars = [
             ['check', 'flarumstyle_enabled', 'postinput' => ''],

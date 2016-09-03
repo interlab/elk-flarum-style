@@ -1,6 +1,28 @@
 
 ;(function($){
     $(document).ready(function(){
+        $('#flarum-start-discussion').click(function(event){
+            event.preventDefault();
+
+            // var $a = $(this);
+            var href = this.href;
+
+            if (href != elk_scripturl) {
+                location.href = href;
+            }
+            // redirect to first board
+            else {
+                var f = $('#flarum-menu a[data-flarum-board-id]').first();
+                if (!f) {
+                    alert('Error: not find id board.');
+                    return false;
+                }
+                var id_board = parseInt(f.attr('data-flarum-board-id'), 10);
+                location.href = elk_scripturl + '?action=post;board=' + id_board.toFixed(1);
+            }
+            return false;
+        });
+
         $('#flarum-menu a').click(function(event){
 
             event.preventDefault();
@@ -33,6 +55,7 @@
             var color = $a.attr('data-flarum-board-color');
             $a.addClass('flarum-bold').css("color", color);
 
+            $('#flarum-start-discussion').attr('href', elk_scripturl + '?action=post;board=' + board_id[1]);
 
             // console.log(sel, board_id, url);
             // return false;
