@@ -34,6 +34,7 @@ class FlarumStyle
         }
 
         $actionArray['flarumstyle'] = ['FlarumStyle.controller.php', 'FlarumStyle_Controller', 'action_index'];
+        $actionArray['boardindex'] = ['BoardIndex.controller.php', 'BoardIndex_Controller', 'action_index'];
         //loadLanguage('FlarumStyle');
     }
 

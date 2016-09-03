@@ -12,8 +12,8 @@ class FlarumStyle_Subs
         $include_boards = null,
         $output_method = 'echo',
         $order1 = 'ORDER BY ml.poster_time ASC',
-        $order2 = 'ORDER BY mf.poster_time ASC')
-    {
+        $order2 = 'ORDER BY mf.poster_time ASC'
+    ) {
         global $settings, $scripturl, $txt, $user_info, $modSettings;
 
         $db = database();
@@ -42,7 +42,8 @@ class FlarumStyle_Subs
             FROM {db_prefix}topics AS t
                 INNER JOIN {db_prefix}messages AS ml ON (ml.id_msg = t.id_last_msg)
                 LEFT JOIN {db_prefix}boards AS b ON (b.id_board = t.id_board)
-            WHERE t.id_last_msg >= {int:min_message_id}' . (empty($exclude_boards) ? '' : '
+            WHERE 1=1
+                ' . (empty($exclude_boards) ? '' : '
                 AND b.id_board NOT IN ({array_int:exclude_boards})') . '' . (empty($include_boards) ? '' : '
                 AND b.id_board IN ({array_int:include_boards})') . '
                 AND {query_wanna_see_board}' . ($modSettings['postmod_active'] ? '
@@ -53,7 +54,7 @@ class FlarumStyle_Subs
             array(
                 'include_boards' => empty($include_boards) ? '' : $include_boards,
                 'exclude_boards' => empty($exclude_boards) ? '' : $exclude_boards,
-                'min_message_id' => $modSettings['maxMsgID'] - 35 * min($num_recent, 5),
+                // 'min_message_id' => $modSettings['maxMsgID'] - 35 * min($num_recent, 5), // AND t.id_last_msg >= {int:min_message_id}
                 'is_approved' => 1,
             )
         );
@@ -61,7 +62,6 @@ class FlarumStyle_Subs
         while ($row = $db->fetch_assoc($request))
             $topics[$row['id_topic']] = $row;
         $db->free_result($request);
-        //dump($topics);
 
         // Did we find anything? If not, bail.
         if (empty($topics))
@@ -147,20 +147,17 @@ class FlarumStyle_Subs
             $member_ids[] = $id;
         }
 
-        require_once BOARDDIR . '/SSI.php';
         if (!empty($member_ids)) {
-            $members = ssi_queryMembers('members', $member_ids, 15, 'id_member', '');
+            $members = self::queryMembers('members', $member_ids, $num_recent, 'id_member');
             foreach ($posts as &$topic) {
                 $id = $topic['poster']['id'];
-                if (isset($members[$id])) {
-                    $topic['poster']['icon'] = $members[$id]['avatar']['image'];
-                }
+                $topic['poster']['icon'] = isset($members[$id]) ? $members[$id]['avatar']['image'] : '';
             }
         }
 
         return $posts;
     }
-    
+
     public static function getIdsTreeBoards($id_board)
     {
         $db = database();
@@ -189,7 +186,7 @@ class FlarumStyle_Subs
 
         return $ids;
     }
-    
+
     public static function getSimpleBoardList()
     {
         global $scripturl;
@@ -238,51 +235,87 @@ class FlarumStyle_Subs
         return $boards;
     }
 
-    public static function lastTopics($num_recent = 8, $exclude_boards = null, $include_boards = null, $output_method = 'echo')
+    public static function lastTopics($num_recent = 8, $exclude_boards = null, $include_boards = null)
     {
         return self::parse_posts(
             $num_recent,
             $exclude_boards,
             $include_boards,
-            $output_method,
             $order1 = 'ORDER BY t.id_last_msg DESC',
             $order2 = 'ORDER BY t.id_last_msg DESC'
         );
     }
 
-    public static function topTopics($num_recent = 8, $exclude_boards = null, $include_boards = null, $output_method = 'echo')
+    public static function topTopics($num_recent = 8, $exclude_boards = null, $include_boards = null)
     {
         return self::parse_posts(
             $num_recent,
             $exclude_boards,
             $include_boards,
-            $output_method,
             $order1 = 'ORDER BY t.num_replies DESC, t.num_views DESC',
             $order2 = 'ORDER BY t.num_replies DESC, t.num_views DESC'
         );
     }
 
-    public static function newTopics($num_recent = 8, $exclude_boards = null, $include_boards = null, $output_method = 'echo')
+    public static function newTopics($num_recent = 8, $exclude_boards = null, $include_boards = null)
     {
         return self::parse_posts(
             $num_recent,
             $exclude_boards,
             $include_boards,
-            $output_method,
             $order1 = 'ORDER BY t.id_topic DESC',
             $order2 = 'ORDER BY t.id_topic DESC'
         );
     }
 
-    public static function oldTopics($num_recent = 8, $exclude_boards = null, $include_boards = null, $output_method = 'echo')
+    public static function oldTopics($num_recent = 8, $exclude_boards = null, $include_boards = null)
     {
         return self::parse_posts(
             $num_recent,
             $exclude_boards,
             $include_boards,
-            $output_method,
             $order1 = 'ORDER BY ml.poster_time ASC',
             $order2 = 'ORDER BY mf.poster_time ASC'
         );
+    }
+
+    public static function queryMembers($query_where = null, $query_where_params = array(), $query_limit = '', $query_order = 'id_member DESC')
+    {
+        global $memberContext;
+
+        if ($query_where === null)
+            return;
+
+        require_once(SUBSDIR . '/Members.subs.php');
+        $members_data = retrieveMemberData(array(
+            $query_where => $query_where_params,
+            'limit' => !empty($query_limit) ? (int) $query_limit : 10,
+            'order_by' => $query_order,
+            'activated_status' => 1,
+        ));
+
+        $members = array();
+        foreach ($members_data['member_info'] as $row)
+            $members[] = $row['id'];
+
+        if (empty($members))
+            return array();
+
+        // Load the members.
+        loadMemberData($members);
+
+        $query_members = array();
+        foreach ($members as $member)
+        {
+            // Load their context data.
+            if (!loadMemberContext($member))
+                continue;
+
+            // Store this member's information.
+            $query_members[$member] = $memberContext[$member];
+        }
+
+        // Send back the data.
+        return $query_members;
     }
 }
