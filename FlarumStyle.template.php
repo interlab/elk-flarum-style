@@ -10,7 +10,7 @@ function template_flarumstyle_home()
 
     <div class="flarum-flex-container">
     <div class="flarum-flex-item">
-    <div class="flarum-left-header"><a href="" class="flarum-start-discussion">Start a Discussion</a></div>
+    <div class="flarum-left-header"><a href="" class="flarum-start-discussion" id="flarum-start-discussion">Start a Discussion</a></div>
     ';
         // ssi_topBoards(), '<br>
 
