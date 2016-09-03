@@ -55,7 +55,9 @@
             var color = $a.attr('data-flarum-board-color');
             $a.addClass('flarum-bold').css("color", color);
 
-            $('#flarum-start-discussion').attr('href', elk_scripturl + '?action=post;board=' + board_id[1]);
+            if (board_id) {
+                $('#flarum-start-discussion').attr('href', elk_scripturl + '?action=post;board=' + board_id[1]);
+            }
 
             // console.log(sel, board_id, url);
             // return false;
