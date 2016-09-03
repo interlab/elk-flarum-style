@@ -10,7 +10,6 @@ class FlarumStyle_Subs
         $num_recent = 8,
         $exclude_boards = null,
         $include_boards = null,
-        $output_method = 'echo',
         $order1 = 'ORDER BY ml.poster_time ASC',
         $order2 = 'ORDER BY mf.poster_time ASC'
     ) {
