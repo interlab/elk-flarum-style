@@ -25,6 +25,8 @@ class FlarumStyle
             require_once SOURCEDIR . '/libs/vendor/autoload.php';
         }
         require_once SUBSDIR.'/FlarumStyle.subs.php';
+
+        loadLanguage('FlarumStyle');
     }
 
     public static function integrate_actions(&$actionArray, &$adminActions)
@@ -35,7 +37,6 @@ class FlarumStyle
 
         $actionArray['flarumstyle'] = ['FlarumStyle.controller.php', 'FlarumStyle_Controller', 'action_index'];
         $actionArray['boardindex'] = ['BoardIndex.controller.php', 'BoardIndex_Controller', 'action_index'];
-        //loadLanguage('FlarumStyle');
     }
 
     // Boards.subs.php

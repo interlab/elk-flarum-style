@@ -10,16 +10,11 @@ function template_flarumstyle_home()
 
     <div class="flarum-flex-container">
     <div class="flarum-flex-item">
-    <div class="flarum-left-header"><a href="" class="flarum-start-discussion" id="flarum-start-discussion">Start a Discussion</a></div>
-    ';
-        // ssi_topBoards(), '<br>
+    <div class="flarum-left-header"><a href="" class="flarum-start-discussion" id="flarum-start-discussion">', $txt['flarumstyle_newtopic'], '</a></div>
 
-    echo '
     <ul class="flarum-menu" id="flarum-menu">
-
-        <li><a href="', $scripturl, '" class="flarum-bold"><i class="flarum-bold flarum-icon-alltopics fa fa-comments-o"></i> All Discussions</a></li>
-        <li><a href="', $scripturl, '?action=boardindex"><i class="fa fa-list flarum-icon-alltopics" aria-hidden="true"></i> Categories</a></li>
-        <!--<li>Boards</li>-->
+        <li><a href="', $scripturl, '" class="flarum-bold"><i class="flarum-bold flarum-icon-alltopics fa fa-comments-o"></i> ', $txt['flarumstyle_all_topics'], '</a></li>
+        <li><a href="', $scripturl, '?action=boardindex"><i class="fa fa-list flarum-icon-alltopics" aria-hidden="true"></i> ', $txt['flarumstyle_all_cats'], '</a></li>
         <li class="flarum-li-ropdown-separator"></li>';
 
         foreach ($context['categories'] as $dummy => $board) {
@@ -42,19 +37,19 @@ function template_flarumstyle_home()
 
     echo '
     <br>
-        <div class="flarum-bold">Search</div>
-        ', flarumstyleQuickSearch(), '<br>
-
-        <div class="flarum-bold">Who\'s online</div>
+        <div class="flarum-bold">', $txt['flarumstyle_search'], '</div>
+        ', flarumstyleQuickSearch(), '
+    <br>
+        <div class="flarum-bold">', $txt['flarumstyle_whos_online'], '</div>
         ', flarumstyleWhosOnline(), '
     </div>
     <div class="flarum-flex-item">
     <div class="flarum-topics-header">
     <select class="flarum-select-sort" id="flarum-select-sort">
-        <option value="last">Latest</option>
-        <option value="top">Top</option>
-        <option value="new">Newest</option>
-        <option value="old">Oldest</option>
+        <option value="last">', $txt['flarumstyle_sort_last'], '</option>
+        <option value="top">', $txt['flarumstyle_sort_top'], '</option>
+        <option value="new">', $txt['flarumstyle_sort_new'], '</option>
+        <option value="old">', $txt['flarumstyle_sort_old'], '</option>
     </select>
     <i class="icon fa fa-fw fa-sort flarum-Select-caret"></i>
     </div>
