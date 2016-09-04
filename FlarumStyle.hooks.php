@@ -76,6 +76,7 @@ class FlarumStyle
     {
         global $txt;
 
+        loadLanguage('FlarumStyleAdmin');
         $admin_areas['config']['areas']['addonsettings']['subsections']['flarumstyle'] = ['FlarumStyle'];
     }
 
