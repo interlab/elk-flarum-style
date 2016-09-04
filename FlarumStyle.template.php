@@ -97,7 +97,7 @@ function flarumstyleQuickSearch($output_method = 'echo')
 
 function flarumstyleWhosOnline($output_method = 'echo')
 {
-	global $user_info, $txt, $settings;
+	global $user_info, $txt, $settings, $context, $scripturl;
 
 	require_once(SUBSDIR . '/MembersOnline.subs.php');
 	$membersOnlineOptions = array(
@@ -117,9 +117,12 @@ function flarumstyleWhosOnline($output_method = 'echo')
 		);
 
 	echo '
-		', comma_format($return['num_guests']), ' ', $return['num_guests'] == 1 ? $txt['guest'] : $txt['guests'], ', ', comma_format($return['num_users_online']), ' ', $return['num_users_online'] == 1 ? $txt['user'] : $txt['users'];
+		', ($context['show_who'] ? '<a href="'.$scripturl.'?action=who">' : ''),
+        comma_format($return['num_guests']), ' ', $return['num_guests'] == 1 ? $txt['guest'] : $txt['guests'], ', ',
+        comma_format($return['num_users_online']), ' ', $return['num_users_online'] == 1 ? $txt['user'] : $txt['users'],
+        ($context['show_who'] ? '</a>' : '');
 
-	$bracketList = array();
+	$bracketList = [];
 	if (!empty($user_info['buddies']))
 		$bracketList[] = comma_format($return['num_buddies']) . ' ' . ($return['num_buddies'] == 1 ? $txt['buddy'] : $txt['buddies']);
 	if (!empty($return['num_spiders']))

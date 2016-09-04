@@ -6,7 +6,7 @@ class FlarumStyle_Controller
 {
     public static function action_index()
     {
-        global $context, $txt;
+        global $context, $txt, $modSettings;
 
         if (!FlarumStyle::$enable) {
             die('FlarumStyle addon is not enabled.');
@@ -26,6 +26,7 @@ class FlarumStyle_Controller
         $context['categories'] = FlarumStyle_Subs::getSimpleBoardList();
 
         $context['flarum-recent-topics'] = FlarumStyle_Subs::lastTopics(15, null, null, '');
+        $context['show_who'] = allowedTo('who_view') && !empty($modSettings['who_enabled']);
     }
 
     protected function parse_sa_request($sa)
