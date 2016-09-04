@@ -2,12 +2,9 @@
 
 function template_flarumstyle_home()
 {
-	global $context, $scripturl, $txt;
+	global $context, $scripturl, $txt, $modSettings;
 
     echo '
-    <style>
-    </style>
-
     <div class="flarum-flex-container">
     <div class="flarum-flex-item">
     <div class="flarum-left-header"><a href="" class="flarum-start-discussion" id="flarum-start-discussion">', $txt['flarumstyle_newtopic'], '</a></div>
@@ -35,13 +32,21 @@ function template_flarumstyle_home()
      echo '
      </ul>';
 
+    if (!empty($modSettings['flarumstyle_show_search'])) {
+        echo '
+    <br>
+    <div class="flarum-bold">', $txt['flarumstyle_search'], '</div>
+    ', flarumstyleQuickSearch();
+    }
+
+    if (!empty($modSettings['flarumstyle_show_who'])) {
+        echo '
+    <br>
+    <div class="flarum-bold">', $txt['flarumstyle_whos_online'], '</div>
+    ', flarumstyleWhosOnline();
+    }
+
     echo '
-    <br>
-        <div class="flarum-bold">', $txt['flarumstyle_search'], '</div>
-        ', flarumstyleQuickSearch(), '
-    <br>
-        <div class="flarum-bold">', $txt['flarumstyle_whos_online'], '</div>
-        ', flarumstyleWhosOnline(), '
     </div>
     <div class="flarum-flex-item">
     <div class="flarum-topics-header">

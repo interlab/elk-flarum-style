@@ -10,7 +10,7 @@ class FlarumStyle
     {
         global $modSettings;
 
-        self::$enable = (bool) $modSettings['flarumstyle_enabled'];
+        self::$enable = !empty($modSettings['flarumstyle_enabled']);
         if (!self::$enable) {
             return;
         }
@@ -99,11 +99,11 @@ class FlarumStyle
 
         $fsSettings = new Settings_Form();
 
-        $txt['flarumstyle_enabled'] = 'Enable Flarum Style addon';
-
         // All the options, well at least some of them!
         $config_vars = [
             ['check', 'flarumstyle_enabled', 'postinput' => ''],
+            ['check', 'flarumstyle_show_search', 'postinput' => ''],
+            ['check', 'flarumstyle_show_who', 'postinput' => ''],
         ];
 
         // Load the settings to the form class

@@ -10,3 +10,8 @@ $txt['flarumstyle_sort_last'] = 'Последние ответы';
 $txt['flarumstyle_sort_top'] = 'Топ темы';
 $txt['flarumstyle_sort_new'] = 'Новые темы';
 $txt['flarumstyle_sort_old'] = 'Старые темы';
+
+// admin
+$txt['flarumstyle_enabled'] = 'Enable Flarum Style addon';
+$txt['flarumstyle_show_search'] = 'Show search box';
+$txt['flarumstyle_show_who'] = 'Show who\'s online box';
