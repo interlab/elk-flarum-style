@@ -10,3 +10,5 @@ $txt['flarumstyle_sort_last'] = 'Latest';
 $txt['flarumstyle_sort_top'] = 'Top';
 $txt['flarumstyle_sort_new'] = 'Newest';
 $txt['flarumstyle_sort_old'] = 'Oldest';
+
+$txt['flarumstyle_num_topics'] = 'The number of topics on page';

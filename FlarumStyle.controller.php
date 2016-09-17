@@ -1,19 +1,26 @@
 <?php
 
-// http://localhost/flarumstyle/ssi_examples.php
-
 class FlarumStyle_Controller
 {
-    public static function action_index()
+    protected $num_topics = 30;
+
+    public function __construct()
+    {
+        global $modSettings;
+
+        $this->num_topics = empty($modSettings['flarumstyle_num_topics']) ? 50 : $modSettings['flarumstyle_num_topics'];
+    }
+
+    public function action_index()
     {
         global $context, $txt, $modSettings;
 
-        if (!FlarumStyle::$enable) {
+        if ( ! FlarumStyle::$enable ) {
             die('FlarumStyle addon is not enabled.');
         }
 
         if (isset($_GET['sa'])) {
-            return (new self())->parse_sa_request($_GET['sa']);
+            return $this->parse_sa_request();
         }
 
         loadTemplate('FlarumStyle');
@@ -21,20 +28,19 @@ class FlarumStyle_Controller
         loadJavaScriptFile('flarumstyle.js');
 
         $context['page_title'] = sprintf($txt['forum_index'], $context['forum_name']);
-		$context['sub_template'] = 'flarumstyle_home';
+        $context['sub_template'] = 'flarumstyle_home';
 
         $context['categories'] = FlarumStyle_Subs::getSimpleBoardList();
-
-        $context['flarum-recent-topics'] = FlarumStyle_Subs::lastTopics(15, null, null, '');
+        $context['flarum-recent-topics'] = FlarumStyle_Subs::lastTopics($this->num_topics, null, null, '');
         $context['show_who'] = allowedTo('who_view') && !empty($modSettings['who_enabled']);
     }
 
-    protected function parse_sa_request($sa)
+    protected function parse_sa_request()
     {
-        switch ($sa) {
+        switch ($_GET['sa']) {
             case 'ajax':
                 if (isset($_GET['gettopics']))
-                    return self::getTopicsAjax($_GET['gettopics']);
+                    return $this->getTopicsAjax($_GET['gettopics']);
                 else
                     fatal_error('Unknown request.', false);
 
@@ -44,11 +50,9 @@ class FlarumStyle_Controller
         die('Error: Unknown request.');
     }
 
-    public static function getTopicsAjax($sort)
+    protected function getTopicsAjax($sort)
     {
-        require_once BOARDDIR . '/SSI.php';
-
-        $num_recent = 50;
+        $num_recent = $this->num_topics;
         $exclude_boards = null;
         $include_boards = null;
 
@@ -57,17 +61,16 @@ class FlarumStyle_Controller
         }
 
         if ($sort === 'last') {
-            $context['flarum-topics'] = FlarumStyle_Subs::lastTopics($num_recent, $exclude_boards, $include_boards, '');
+            $context['flarum-topics'] = FlarumStyle_Subs::lastTopics($num_recent, $exclude_boards, $include_boards);
         }
         elseif ($sort === 'top') {
-            $context['flarum-topics'] = FlarumStyle_Subs::topTopics($num_recent, $exclude_boards, $include_boards, '');
+            $context['flarum-topics'] = FlarumStyle_Subs::topTopics($num_recent, $exclude_boards, $include_boards);
         }
         elseif ($sort === 'new') {
-            $context['flarum-topics'] = FlarumStyle_Subs::newTopics($num_recent, $exclude_boards, $include_boards, '');
-            // messageIndexTopics($id_board, $id_member, $start, $per_page, $sort_by, $sort_column, $indexOptions)
+            $context['flarum-topics'] = FlarumStyle_Subs::newTopics($num_recent, $exclude_boards, $include_boards);
         }
         elseif ($sort === 'old') {
-            $context['flarum-topics'] = FlarumStyle_Subs::oldTopics($num_recent, $exclude_boards, $include_boards, '');
+            $context['flarum-topics'] = FlarumStyle_Subs::oldTopics($num_recent, $exclude_boards, $include_boards);
         } else {
             die('Error: Unknown request.');
         }

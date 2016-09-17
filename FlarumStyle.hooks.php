@@ -15,11 +15,11 @@ class FlarumStyle
             return;
         }
 
-		$default_action = [
-			'file' => CONTROLLERDIR . '/FlarumStyle.controller.php',
-			'controller' => 'FlarumStyle_Controller',
-			'function' => 'action_index'
-		];
+        $default_action = [
+            'file' => CONTROLLERDIR . '/FlarumStyle.controller.php',
+            'controller' => 'FlarumStyle_Controller',
+            'function' => 'action_index'
+        ];
 
         if (file_exists(SOURCEDIR . '/libs/vendor/autoload.php')) {
             require_once SOURCEDIR . '/libs/vendor/autoload.php';
@@ -105,6 +105,7 @@ class FlarumStyle
             ['check', 'flarumstyle_enabled', 'postinput' => ''],
             ['check', 'flarumstyle_show_search', 'postinput' => ''],
             ['check', 'flarumstyle_show_who', 'postinput' => ''],
+            ['int', 'flarumstyle_num_topics', 'postinput' => ''],
         ];
 
         // Load the settings to the form class

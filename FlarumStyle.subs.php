@@ -160,18 +160,18 @@ class FlarumStyle_Subs
     public static function getIdsTreeBoards($id_board)
     {
         $db = database();
-		$result = $db->query('', '
-			SELECT b.id_board, b.id_parent, b.child_level
-			FROM {db_prefix}boards AS b
-			WHERE {query_see_board}
-			ORDER BY b.board_order',
-			[]
-		);
+        $result = $db->query('', '
+            SELECT b.id_board, b.id_parent, b.child_level
+            FROM {db_prefix}boards AS b
+            WHERE {query_see_board}
+            ORDER BY b.board_order',
+            []
+        );
 
         $ids = [];
         $parents = [];
         $level = 0;
-		while ($row = $db->fetch_assoc($result)) {
+        while ($row = $db->fetch_assoc($result)) {
             if (!empty($ids) && $level <= $row['child_level']) {
                 // break;
             }
@@ -191,19 +191,19 @@ class FlarumStyle_Subs
         global $scripturl;
 
         $db = database();
-		$result = $db->query('', '
-			SELECT
-				b.id_board, b.name AS board_name, b.description, b.flarum_board_color,
-				b.num_posts, b.num_topics, b.id_parent
-			FROM {db_prefix}boards AS b
-			WHERE {query_see_board}
-			ORDER BY b.board_order',
-			[]
-		);
+        $result = $db->query('', '
+            SELECT
+                b.id_board, b.name AS board_name, b.description, b.flarum_board_color,
+                b.num_posts, b.num_topics, b.id_parent
+            FROM {db_prefix}boards AS b
+            WHERE {query_see_board}
+            ORDER BY b.board_order',
+            []
+        );
 
         $boards= [];
-		// # Run through the categories and boards (or only boards)....
-		while ($row = $db->fetch_assoc($result)) {
+        // # Run through the categories and boards (or only boards)....
+        while ($row = $db->fetch_assoc($result)) {
             // parent board
             if ( ! $row['id_parent'] ) {
                 $boards[$row['id_board']] = [
