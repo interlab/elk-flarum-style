@@ -8,7 +8,7 @@ class FlarumStyle_Controller
     {
         global $modSettings;
 
-        $this->num_topics = empty($modSettings['flarumstyle_num_topics']) ? 50 : $modSettings['flarumstyle_num_topics'];
+        $this->num_topics = empty($modSettings['flarumstyle_num_topics']) ? $this->num_topics : $modSettings['flarumstyle_num_topics'];
     }
 
     public function action_index()
@@ -31,7 +31,7 @@ class FlarumStyle_Controller
         $context['sub_template'] = 'flarumstyle_home';
 
         $context['categories'] = FlarumStyle_Subs::getSimpleBoardList();
-        $context['flarum-recent-topics'] = FlarumStyle_Subs::lastTopics($this->num_topics, null, null, '');
+        $context['flarum-recent-topics'] = FlarumStyle_Subs::lastTopics($this->num_topics, null, null);
         $context['show_who'] = allowedTo('who_view') && !empty($modSettings['who_enabled']);
     }
 
