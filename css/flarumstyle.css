@@ -48,6 +48,11 @@
     font-weight: bold !important;
 }
 
+a.flarum-start-discussion-def-bcolor {
+    background-color: #e7edf3;
+    color: #667d99;
+}
+
 a.flarum-start-discussion {
     overflow: hidden;
     text-overflow: ellipsis;

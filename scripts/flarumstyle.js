@@ -55,8 +55,16 @@
             var color = $a.attr('data-flarum-board-color');
             $a.addClass('flarum-bold').css("color", color);
 
+            var $newtopic = $('#flarum-start-discussion');
             if (board_id) {
-                $('#flarum-start-discussion').attr('href', elk_scripturl + '?action=post;board=' + board_id[1]);
+                if (color) {
+                    $newtopic.removeClass('flarum-start-discussion-def-bcolor').css({'background-color': color, 'color': '#fff'});
+                } else {
+                    $newtopic.css({'background-color': '', 'color': ''}).addClass('flarum-start-discussion-def-bcolor');
+                }
+                $newtopic.attr('href', elk_scripturl + '?action=post;board=' + board_id[1]);
+            } else {
+                $newtopic.css({'background-color': '', 'color': ''}).addClass('flarum-start-discussion-def-bcolor');
             }
 
             // console.log(sel, board_id, url);
