@@ -24,7 +24,6 @@
         });
 
         $('#flarum-menu a').click(function(event){
-
             event.preventDefault();
 
             ajax_indicator(true);
@@ -32,8 +31,8 @@
             var href = this.href;
             if (href.endsWith('action=boardindex')) {
                 $.get(elk_scripturl + '?action=boardindex', {}, function(data) {
-                    var html = $($.parseHTML(data)).find('#main_content_section').parent();
-                    $('#wrapper').replaceWith(html);
+                    var html = $($.parseHTML(data)).find('#main_content_section');
+                    $('#wrapper #main_content_section').replaceWith(html);
                 });
 
                 ajax_indicator(false);
