@@ -6,7 +6,61 @@
 
 class FlarumStyle_Subs
 {
+    public static function count_posts(
+        $exclude_boards = null,
+        $include_boards = null
+    ) {
+        global $settings, $scripturl, $txt, $user_info, $modSettings;
+
+        $db = database();
+
+        if ($exclude_boards === null && !empty($modSettings['recycle_enable']) && $modSettings['recycle_board'] > 0)
+            $exclude_boards = array($modSettings['recycle_board']);
+        else
+            $exclude_boards = empty($exclude_boards) ? array() : (is_array($exclude_boards) ? $exclude_boards : array($exclude_boards));
+
+        // Only some boards?.
+        if (is_array($include_boards) || (int) $include_boards === $include_boards)
+            $include_boards = is_array($include_boards) ? $include_boards : array($include_boards);
+        elseif ($include_boards != null)
+        {
+            $output_method = $include_boards;
+            $include_boards = array();
+        }
+
+        // Find all the posts in distinct topics. Newer ones will have higher IDs.
+        $request = $db->query('', '
+            SELECT COUNT(*)
+            FROM {db_prefix}topics AS t
+                INNER JOIN {db_prefix}messages AS ml ON (ml.id_msg = t.id_last_msg)
+                LEFT JOIN {db_prefix}boards AS b ON (b.id_board = t.id_board)
+            WHERE 1=1
+                ' . (empty($exclude_boards) ? '' : '
+                AND b.id_board NOT IN ({array_int:exclude_boards})') . '' . (empty($include_boards) ? '' : '
+                AND b.id_board IN ({array_int:include_boards})') . '
+                AND {query_wanna_see_board}' . ($modSettings['postmod_active'] ? '
+                AND t.approved = {int:is_approved}
+                AND ml.approved = {int:is_approved}' : '') . '
+            LIMIT 1',
+            array(
+                'include_boards' => empty($include_boards) ? '' : $include_boards,
+                'exclude_boards' => empty($exclude_boards) ? '' : $exclude_boards,
+                'is_approved' => 1,
+            )
+        );
+        $total = 0;
+        $row = $db->fetch_row($request);
+        $db->free_result($request);
+
+        if (!empty($row)) {
+            $total = $row[0];
+        }
+
+        return $total;
+    }
+
     public static function parse_posts(
+        $start = 0,
         $num_recent = 8,
         $exclude_boards = null,
         $include_boards = null,
@@ -49,7 +103,7 @@ class FlarumStyle_Subs
                 AND t.approved = {int:is_approved}
                 AND ml.approved = {int:is_approved}' : '') . '
             ' . $order1 . '
-            LIMIT ' . $num_recent,
+            LIMIT ' . $start . ', ' . $num_recent,
             array(
                 'include_boards' => empty($include_boards) ? '' : $include_boards,
                 'exclude_boards' => empty($exclude_boards) ? '' : $exclude_boards,
@@ -234,9 +288,10 @@ class FlarumStyle_Subs
         return $boards;
     }
 
-    public static function lastTopics($num_recent = 8, $exclude_boards = null, $include_boards = null)
+    public static function lastTopics($start = 0, $num_recent = 8, $exclude_boards = null, $include_boards = null)
     {
         return self::parse_posts(
+            $start,
             $num_recent,
             $exclude_boards,
             $include_boards,
@@ -245,9 +300,10 @@ class FlarumStyle_Subs
         );
     }
 
-    public static function topTopics($num_recent = 8, $exclude_boards = null, $include_boards = null)
+    public static function topTopics($start = 0, $num_recent = 8, $exclude_boards = null, $include_boards = null)
     {
         return self::parse_posts(
+            $start,
             $num_recent,
             $exclude_boards,
             $include_boards,
@@ -256,9 +312,10 @@ class FlarumStyle_Subs
         );
     }
 
-    public static function newTopics($num_recent = 8, $exclude_boards = null, $include_boards = null)
+    public static function newTopics($start = 0, $num_recent = 8, $exclude_boards = null, $include_boards = null)
     {
         return self::parse_posts(
+            $start,
             $num_recent,
             $exclude_boards,
             $include_boards,
@@ -267,9 +324,10 @@ class FlarumStyle_Subs
         );
     }
 
-    public static function oldTopics($num_recent = 8, $exclude_boards = null, $include_boards = null)
+    public static function oldTopics($start = 0, $num_recent = 8, $exclude_boards = null, $include_boards = null)
     {
         return self::parse_posts(
+            $start,
             $num_recent,
             $exclude_boards,
             $include_boards,

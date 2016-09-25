@@ -1,6 +1,38 @@
 
 ;(function($){
     $(document).ready(function(){
+        // Load more button
+        $(document).on('click', '.flarum-load-more-js', function(event){
+            event.preventDefault();
+
+            var loadingText = typeof(ajax_notification_text) !== 'undefined' ? ajax_notification_text : 'Loading ...';
+            var loadingHtml = '<div class="flarum-center flarum-loading"><i class="fa fa-spinner fa-pulse"></i> ' + loadingText + '</div>';
+            var url = this.href;
+            params = {};
+
+            ajax_indicator(true);
+            $(this).hide();
+            var loadBox = $('div.flarum-load-more');
+            loadBox.append(loadingHtml);
+
+            $.get(url, params, function(data) {
+                $('div.flarum-topics-body').append(data);
+            })
+            .done(function() {
+                // console.log("second success");
+            })
+            .fail(function() {
+                // console.log("error");
+                $('#flarum-errorbox-topics').show().html('<div class="errorbox">Error loading data.</div>');
+            })
+            .always(function() {
+                // console.log("finished");
+                ajax_indicator(false);
+                loadBox.remove();
+            });
+        });
+
+        // Start a discussion button
         $('#flarum-start-discussion').click(function(event){
             event.preventDefault();
 
@@ -68,6 +100,7 @@
 
             // console.log(sel, board_id, url);
             // return false;
+            $('.flarum-load-more-js').attr('href', url);
 
             $.get(url, params, function(data) {
                 $('div.flarum-topics-body').html(data);
@@ -97,8 +130,10 @@
             } else {
                 var url = elk_scripturl + '?action=flarumstyle;sa=ajax;gettopics=' + sel;
             }
-            var params = {};
 
+            $('.flarum-load-more-js').attr('href', url);
+
+            var params = {};
             $.get(url, params, function(data) {
                 $('div.flarum-topics-body').html(data);
             })

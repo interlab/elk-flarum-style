@@ -382,3 +382,53 @@ select.flarum-select-sort[disabled] {
 .flarum-footer-topic:hover, .flarum-footer-topic:hover a {
     color: #667DA3;
 }
+
+div.flarum-load-more {
+    text-align: center;
+    margin: 10px 0 0 0;
+    padding: 0;
+}
+
+a.flarum-load-more {
+    display: inline-block;
+    margin-bottom: 0;
+    vertical-align: middle;
+    cursor: pointer;
+    white-space: nowrap;
+    line-height: 20px;
+    padding: 8px 13px;
+    border-radius: 4px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    color: #667d99 !important;
+    background: #e7edf3;
+    border: 0;
+    text-decoration: none;
+    font-family: "Open Sans",Helvetica,Arial,sans-serif;
+    font-size: 13px;
+
+}
+
+a.flarum-load-more:hover,
+a.flarum-load-more:focus {
+	background-color: #d7dfea;
+    text-decoration: none;
+}
+a.flarum-load-more:active {
+	background-color: #c6d2e2
+}
+a.flarum-load-more.disabled,
+a.flarum-load-more[disabled] {
+	background: #e7edf3
+}
+
+a.flarum-load-more:active {
+	-webkit-box-shadow: inset 0 3px 5px rgba(0,0,0,0.125);
+	box-shadow: inset 0 3px 5px rgba(0,0,0,0.125);
+	outline: none
+}
+a.flarum-load-more:focus {
+	outline: none
+}

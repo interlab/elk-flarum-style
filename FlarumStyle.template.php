@@ -78,6 +78,15 @@ function template_flarumstyle_home()
         </div>';
     }
 
+    if ($context['flarum_is_next_start']) {
+        echo '
+    <!--<div class="flarum-scroll">-->
+        <div class="flarum-load-more">
+        <a href="', $context['flarum_load_more_url'], ';start=', $context['flarum_next_start'], '" class="jscroll-next flarum-load-more-js flarum-load-more">Load More</a>
+        </div>
+    <!--</div>-->';
+    }
+
     echo '
     </div>
     </div>
