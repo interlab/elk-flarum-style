@@ -61,7 +61,26 @@ function template_flarumstyle_home()
     <div class="flarum-errorbox-topics" id="flarum-errorbox-topics"></div>
     <div class="flarum-topics-body">';
 
-    foreach ($context['flarum-recent-topics'] as $topic) {
+    flarumstyleShowTopics($context['flarum-recent-topics']);
+
+    if ($context['flarum_is_next_start']) {
+        echo '
+    <!--<div class="flarum-scroll">-->
+        <div class="flarum-load-more">
+        <a href="', $context['flarum_load_more_url'], ';start=', $context['flarum_next_start'], '" class="jscroll-next flarum-load-more-js flarum-load-more">', $txt['flarumstyle_load_more'], '</a>
+        </div>
+    <!--</div>-->';
+    }
+
+    echo '
+    </div>
+    </div>
+    </div>';
+}
+
+function flarumstyleShowTopics(array $topics)
+{
+    foreach ($topics as $topic) {
         echo '
         <div class="flarum-topic-box">
             <div class="flarum-body-topic">
@@ -73,24 +92,10 @@ function template_flarumstyle_home()
                 </div>
             </div>
             <div class="flarum-footer-topic">
-                <strong><i class="fa fa-user" aria-hidden="true"></i> ', $topic['poster']['link'], '</strong> posted ', $topic['time'], '
+                <strong><i class="fa fa-user" aria-hidden="true"></i> ', $topic['poster']['link'], '</strong> ', $topic['posted'], ' ', $topic['time'], '
             </div>
         </div>';
     }
-
-    if ($context['flarum_is_next_start']) {
-        echo '
-    <!--<div class="flarum-scroll">-->
-        <div class="flarum-load-more">
-        <a href="', $context['flarum_load_more_url'], ';start=', $context['flarum_next_start'], '" class="jscroll-next flarum-load-more-js flarum-load-more">Load More</a>
-        </div>
-    <!--</div>-->';
-    }
-
-    echo '
-    </div>
-    </div>
-    </div>';
 }
 
 function flarumstyleQuickSearch($output_method = 'echo')

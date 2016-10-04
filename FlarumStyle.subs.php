@@ -1,9 +1,5 @@
 <?php
 
-// SiteDispatcher.class.php ->
-
-// http://localhost/flarumstyle/ssi_examples.php
-
 class FlarumStyle_Subs
 {
     public static function count_posts(
@@ -17,7 +13,7 @@ class FlarumStyle_Subs
         if ($exclude_boards === null && !empty($modSettings['recycle_enable']) && $modSettings['recycle_board'] > 0)
             $exclude_boards = array($modSettings['recycle_board']);
         else
-            $exclude_boards = empty($exclude_boards) ? array() : (is_array($exclude_boards) ? $exclude_boards : array($exclude_boards));
+            $exclude_boards = empty($exclude_boards) ? [] : (is_array($exclude_boards) ? $exclude_boards : array($exclude_boards));
 
         // Only some boards?.
         if (is_array($include_boards) || (int) $include_boards === $include_boards)
@@ -25,7 +21,7 @@ class FlarumStyle_Subs
         elseif ($include_boards != null)
         {
             $output_method = $include_boards;
-            $include_boards = array();
+            $include_boards = [];
         }
 
         // Find all the posts in distinct topics. Newer ones will have higher IDs.
@@ -74,7 +70,7 @@ class FlarumStyle_Subs
         if ($exclude_boards === null && !empty($modSettings['recycle_enable']) && $modSettings['recycle_board'] > 0)
             $exclude_boards = array($modSettings['recycle_board']);
         else
-            $exclude_boards = empty($exclude_boards) ? array() : (is_array($exclude_boards) ? $exclude_boards : array($exclude_boards));
+            $exclude_boards = empty($exclude_boards) ? [] : (is_array($exclude_boards) ? $exclude_boards : array($exclude_boards));
 
         // Only some boards?.
         if (is_array($include_boards) || (int) $include_boards === $include_boards)
@@ -82,7 +78,7 @@ class FlarumStyle_Subs
         elseif ($include_boards != null)
         {
             $output_method = $include_boards;
-            $include_boards = array();
+            $include_boards = [];
         }
 
         require_once(SUBSDIR . '/MessageIndex.subs.php');
@@ -111,14 +107,14 @@ class FlarumStyle_Subs
                 'is_approved' => 1,
             )
         );
-        $topics = array();
+        $topics = [];
         while ($row = $db->fetch_assoc($request))
             $topics[$row['id_topic']] = $row;
         $db->free_result($request);
 
         // Did we find anything? If not, bail.
         if (empty($topics))
-            return array();
+            return [];
 
         // Find all the posts in distinct topics. Newer ones will have higher IDs.
         $request = $db->query('substring', '
@@ -187,6 +183,7 @@ class FlarumStyle_Subs
                 'is_new' => empty($row['is_read']),
                 'new_from' => $row['new_from'],
                 'icon' => '<img src="' . $settings[$icon_sources[$row['icon']]] . '/post/' . $row['icon'] . '.png" style="vertical-align: middle;" alt="' . $row['icon'] . '" />',
+                'posted' => $row['num_replies'] ? $txt['flarumstyle_replied'] : $txt['flarumstyle_posted'],
             );
         }
         $db->free_result($request);
@@ -336,7 +333,7 @@ class FlarumStyle_Subs
         );
     }
 
-    public static function queryMembers($query_where = null, $query_where_params = array(), $query_limit = '', $query_order = 'id_member DESC')
+    public static function queryMembers($query_where = null, $query_where_params = [], $query_limit = '', $query_order = 'id_member DESC')
     {
         global $memberContext;
 
@@ -351,17 +348,17 @@ class FlarumStyle_Subs
             'activated_status' => 1,
         ));
 
-        $members = array();
+        $members = [];
         foreach ($members_data['member_info'] as $row)
             $members[] = $row['id'];
 
         if (empty($members))
-            return array();
+            return [];
 
         // Load the members.
         loadMemberData($members);
 
-        $query_members = array();
+        $query_members = [];
         foreach ($members as $member)
         {
             // Load their context data.
