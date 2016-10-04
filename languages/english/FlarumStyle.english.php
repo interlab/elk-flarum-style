@@ -11,8 +11,6 @@ $txt['flarumstyle_sort_top'] = 'Top';
 $txt['flarumstyle_sort_new'] = 'Newest';
 $txt['flarumstyle_sort_old'] = 'Oldest';
 
-$txt['flarumstyle_num_topics'] = 'The number of topics on page';
-
 $txt['flarumstyle_posted'] = 'posted';
 $txt['flarumstyle_replied'] = 'replied';
 $txt['flarumstyle_load_more'] = 'Load More';
