@@ -244,8 +244,8 @@ class FlarumStyle_Subs
         $db = database();
         $result = $db->query('', '
             SELECT
-                b.id_board, b.name AS board_name, b.description, b.flarum_board_color,
-                b.num_posts, b.num_topics, b.id_parent
+                b.id_board, b.name AS board_name, b.description,
+                b.num_posts, b.num_topics, b.id_parent, b.redirect, b.flarum_board_color
             FROM {db_prefix}boards AS b
             WHERE {query_see_board}
             ORDER BY b.board_order',
@@ -265,6 +265,7 @@ class FlarumStyle_Subs
                     'link' => '<a href="' . $scripturl . '?board=' . $row['id_board'] . '.0">' . $row['board_name'] . '</a>',
                     'flarum_board_color' => $row['flarum_board_color'],
                     'id_parent' => $row['id_parent'],
+                    'redirect' => $row['redirect'],
                 ];
             }
             // childs ...
@@ -277,6 +278,7 @@ class FlarumStyle_Subs
                     'link' => '<a href="' . $scripturl . '?board=' . $row['id_board'] . '.0">' . $row['board_name'] . '</a>',
                     'flarum_board_color' => $row['flarum_board_color'],
                     'id_parent' => $row['id_parent'],
+                    'redirect' => $row['redirect'],
                 ];
             }
         }

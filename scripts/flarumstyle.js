@@ -93,6 +93,13 @@ if (!String.prototype.endsWith) {
             var sel = $('#flarum-select-sort :selected').val();
             if (board_id) {
                 var url = elk_scripturl + '?action=flarumstyle;sa=ajax;gettopics=' + sel + ';board=' + board_id[1];
+                var board_redirect = $a.attr('data-flarum-redirect');
+                var is_redirect = board_redirect !== '';
+                if (is_redirect) {
+                    ajax_indicator(false);
+                    location.href = board_redirect;
+                    return false;
+                }
             } else {
                 var url = elk_scripturl + '?action=flarumstyle;sa=ajax;gettopics=' + sel;
             }

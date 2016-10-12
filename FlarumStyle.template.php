@@ -16,14 +16,15 @@ function template_flarumstyle_home()
 
         foreach ($context['categories'] as $dummy => $board) {
             echo '
-        <li><a href="', $board['href'], '" title="', $board['description'], '" data-flarum-board-color="', $board['flarum_board_color'], '" data-flarum-board-id="', $board['id'], '"><span style="background-color: ', $board['flarum_board_color'], '" class="flarum-icon">
+        <li><a href="', $board['href'], '" title="', $board['description'], '" data-flarum-board-color="', $board['flarum_board_color'], '" data-flarum-board-id="', $board['id'], '"
+        data-flarum-redirect="', $board['redirect'], '"><span style="background-color: ', $board['flarum_board_color'], '" class="flarum-icon">
             </span>', $board['name'], '
         </a></li>';
             if (isset($board['children'])) {
                 foreach ($board['children'] as $dummy_child => $child) {
                     echo '
-        <li><a href="', $child['href'], '" title="', $child['description'], '" data-flarum-board-color="', $child['flarum_board_color'], '" data-flarum-board-id="', $child['id'], '" class="flarum-board-child"><span style="background-color: ', $child['flarum_board_color'], '" class="flarum-icon">
-            </span>', $child['name'], '
+        <li><a href="', $child['href'], '" title="', $child['description'], '" data-flarum-board-color="', $child['flarum_board_color'], '" data-flarum-board-id="', $child['id'], '"
+        data-flarum-redirect="', $child['redirect'], '" class="flarum-board-child"><span style="background-color: ', $child['flarum_board_color'], '" class="flarum-icon"></span>', $child['name'], '
         </a></li>';
                 }
             }
