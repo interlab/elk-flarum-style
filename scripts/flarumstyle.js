@@ -54,10 +54,10 @@ if (!String.prototype.endsWith) {
         $('#flarum-start-discussion').click(function(event){
             event.preventDefault();
 
-            // var $a = $(this);
+            var $a = $(this);
             var href = this.href;
 
-            if (href != elk_scripturl) {
+            if ($a.attr('href') != '') {
                 location.href = href;
             }
             // redirect to first board
