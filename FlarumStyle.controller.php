@@ -65,7 +65,7 @@ class FlarumStyle_Controller
 
     protected function getTopicsAjax($sort)
     {
-        global $context, $scripturl;
+        global $context, $scripturl, $txt;
 
         $num_recent = $this->num_topics;
         $exclude_boards = null;
@@ -73,6 +73,7 @@ class FlarumStyle_Controller
 
         if (!empty($_GET['board'])) {
             $include_boards = FlarumStyle_Subs::getIdsTreeBoards(intval($_GET['board']));
+            $exclude_boards = $exclude_boards ?: [];
         }
 
         $_GET['start'] = empty($_GET['start']) ? 0 : $_GET['start'];
@@ -82,8 +83,7 @@ class FlarumStyle_Controller
         $context['flarum-topics'] = [];
 
         if (!$total) {
-            echo '';
-            die;
+            die('');
         }
 
         if ($sort === 'last') {
@@ -111,21 +111,27 @@ class FlarumStyle_Controller
         $context['flarum_load_more_url'] = $url;
         $context['flarum_next_start'] = $context['start'] + $this->num_topics;
 
+        // friendly URLs
+        ob_start('ob_sessrewrite');
+
+        $template_layers = Template_Layers::getInstance();
+        $template_layers->removeAll();
+        loadTemplate('FlarumStyle');
+        $context['sub_template'] = 'flarumstyle_empty';
+
         flarumstyleShowTopics($context['flarum-topics']);
 
-        if (!$context['flarum_is_next_start']) {
-            // die(''); // end
-        }
-        else {
+        if ($context['flarum_is_next_start']) {
             echo '
         <!--<div class="flarum-scroll2">-->
             <div class="flarum-load-more">
-            <a href="', $context['flarum_load_more_url'], ';start=', $context['flarum_next_start'], '" class="jscroll-next flarum-load-more-js flarum-load-more">Load More</a>
+            <a href="', $context['flarum_load_more_url'], ';start=', $context['flarum_next_start'], '" class="jscroll-next flarum-load-more-js flarum-load-more">', 
+                $txt['flarumstyle_load_more'], '
+            </a>
             </div>
         <!--</div>-->';
-            // die('');
         }
 
-        die;
+        // die('');
     }
 }

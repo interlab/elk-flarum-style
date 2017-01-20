@@ -1,8 +1,13 @@
 <?php
 
+function template_flarumstyle_empty()
+{
+    echo '';
+}
+
 function template_flarumstyle_home()
 {
-	global $context, $scripturl, $txt, $modSettings;
+    global $context, $scripturl, $txt, $modSettings;
 
     echo '
     <div class="flarum-flex-container">
@@ -82,6 +87,8 @@ function template_flarumstyle_home()
 function flarumstyleShowTopics(array $topics)
 {
     foreach ($topics as $topic) {
+        $topic['subject'] = $topic['use_sticky'] ? '<span class="flarum-sticky"></span> ' . '<strong>' . 
+            $topic['subject'] . '</strong>' : $topic['subject'];
         echo '
         <div class="flarum-topic-box">
             <div class="flarum-body-topic">
@@ -89,7 +96,10 @@ function flarumstyleShowTopics(array $topics)
                 <div class="flarum-right-info">
                 <div><i class="fa fa-eye" aria-hidden="true"></i> ', $topic['views'], '</div>
                 <div><i class="fa fa-comment-o" aria-hidden="true"></i> ', $topic['replies'], '</div>
-                <div class="flarum-board-labels"><span class="flarum-board-label"', (empty($topic['flarum_board_color']) ? '' : ' style="background-color: '.$topic['flarum_board_color'].'"'), '><i class="fa fa-folder-o" aria-hidden="true"></i> ', $topic['board']['link'], '</span></div>
+                <div class="flarum-board-labels"><span class="flarum-board-label"',
+    (empty($topic['flarum_board_color']) ? '' : ' style="background-color: '.
+    $topic['flarum_board_color'].'"'), '><i class="fa fa-folder-o" aria-hidden="true"></i> ',
+    $topic['board']['link'], '</span></div>
                 </div>
             </div>
             <div class="flarum-footer-topic">
@@ -101,64 +111,64 @@ function flarumstyleShowTopics(array $topics)
 
 function flarumstyleQuickSearch($output_method = 'echo')
 {
-	global $scripturl, $txt;
+    global $scripturl, $txt;
 
-	if (!allowedTo('search_posts'))
-		return;
+    if (!allowedTo('search_posts'))
+        return;
 
-	if ($output_method != 'echo')
-		return $scripturl . '?action=search';
+    if ($output_method != 'echo')
+        return $scripturl . '?action=search';
 
-	echo '
-		<form action="', $scripturl, '?action=search;sa=results" method="post" accept-charset="UTF-8">
-			<input type="hidden" name="advanced" value="0" /><input type="text" name="search" size="30" class="input_text" /> <input type="submit" value="', $txt['search'], '" class="button_submit" />
-		</form>';
+    echo '
+        <form action="', $scripturl, '?action=search;sa=results" method="post" accept-charset="UTF-8">
+            <input type="hidden" name="advanced" value="0" /><input type="text" name="search" size="30" class="input_text" /> <input type="submit" value="', $txt['search'], '" class="button_submit" />
+        </form>';
 }
 
 function flarumstyleWhosOnline($output_method = 'echo')
 {
-	global $user_info, $txt, $settings, $context, $scripturl;
+    global $user_info, $txt, $settings, $context, $scripturl;
 
-	require_once(SUBSDIR . '/MembersOnline.subs.php');
-	$membersOnlineOptions = array(
-		'show_hidden' => allowedTo('moderate_forum'),
-	);
-	$return = getMembersOnlineStats($membersOnlineOptions);
+    require_once(SUBSDIR . '/MembersOnline.subs.php');
+    $membersOnlineOptions = array(
+        'show_hidden' => allowedTo('moderate_forum'),
+    );
+    $return = getMembersOnlineStats($membersOnlineOptions);
 
-	// Add some redundancy for backwards compatibility reasons.
-	if ($output_method != 'echo')
-		return $return + array(
-			'users' => $return['users_online'],
-			'guests' => $return['num_guests'],
-			'hidden' => $return['num_users_hidden'],
-			'buddies' => $return['num_buddies'],
-			'num_users' => $return['num_users_online'],
-			'total_users' => $return['num_users_online'] + $return['num_guests'] + $return['num_spiders'],
-		);
+    // Add some redundancy for backwards compatibility reasons.
+    if ($output_method != 'echo')
+        return $return + array(
+            'users' => $return['users_online'],
+            'guests' => $return['num_guests'],
+            'hidden' => $return['num_users_hidden'],
+            'buddies' => $return['num_buddies'],
+            'num_users' => $return['num_users_online'],
+            'total_users' => $return['num_users_online'] + $return['num_guests'] + $return['num_spiders'],
+        );
 
-	echo '
-		', ($context['show_who'] ? '<a href="'.$scripturl.'?action=who">' : ''),
+    echo '
+        ', ($context['show_who'] ? '<a href="'.$scripturl.'?action=who">' : ''),
         comma_format($return['num_guests']), ' ', $return['num_guests'] == 1 ? $txt['guest'] : $txt['guests'], ', ',
         comma_format($return['num_users_online']), ' ', $return['num_users_online'] == 1 ? $txt['user'] : $txt['users'],
         ($context['show_who'] ? '</a>' : '');
 
-	$bracketList = [];
-	if (!empty($user_info['buddies']))
-		$bracketList[] = comma_format($return['num_buddies']) . ' ' . ($return['num_buddies'] == 1 ? $txt['buddy'] : $txt['buddies']);
-	if (!empty($return['num_spiders']))
-		$bracketList[] = comma_format($return['num_spiders']) . ' ' . ($return['num_spiders'] == 1 ? $txt['spider'] : $txt['spiders']);
-	if (!empty($return['num_users_hidden']))
-		$bracketList[] = comma_format($return['num_users_hidden']) . ' ' . $txt['hidden'];
+    $bracketList = [];
+    if (!empty($user_info['buddies']))
+        $bracketList[] = comma_format($return['num_buddies']) . ' ' . ($return['num_buddies'] == 1 ? $txt['buddy'] : $txt['buddies']);
+    if (!empty($return['num_spiders']))
+        $bracketList[] = comma_format($return['num_spiders']) . ' ' . ($return['num_spiders'] == 1 ? $txt['spider'] : $txt['spiders']);
+    if (!empty($return['num_users_hidden']))
+        $bracketList[] = comma_format($return['num_users_hidden']) . ' ' . $txt['hidden'];
 
-	if (!empty($bracketList))
-		echo ' (' . implode(', ', $bracketList) . ')';
+    if (!empty($bracketList))
+        echo ' (' . implode(', ', $bracketList) . ')';
 
-	echo '<br />
-			', implode(', ', $return['list_users_online']);
+    echo '<br />
+            ', implode(', ', $return['list_users_online']);
 
-	// Showing membergroups?
-	if (!empty($settings['show_group_key']) && !empty($return['membergroups']))
-		echo '<br />
-			[' . implode(']&nbsp;&nbsp;[', $return['membergroups']) . ']';
+    // Showing membergroups?
+    if (!empty($settings['show_group_key']) && !empty($return['membergroups']))
+        echo '<br />
+            [' . implode(']&nbsp;&nbsp;[', $return['membergroups']) . ']';
 }
 

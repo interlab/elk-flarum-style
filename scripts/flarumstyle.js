@@ -89,7 +89,7 @@ if (!String.prototype.endsWith) {
                 return false;
             }
 
-            var board_id = href.match(/board=(\d+\.\d+)/i);
+            var board_id = href.match(/board=(\d+)\.\d+/i) || href.match(/board,(\d+)\.\d+\.html/i);
             var sel = $('#flarum-select-sort :selected').val();
             if (board_id) {
                 var url = elk_scripturl + '?action=flarumstyle;sa=ajax;gettopics=' + sel + ';board=' + board_id[1];

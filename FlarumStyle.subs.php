@@ -61,7 +61,8 @@ class FlarumStyle_Subs
         $exclude_boards = null,
         $include_boards = null,
         $order1 = 'ORDER BY ml.poster_time ASC',
-        $order2 = 'ORDER BY mf.poster_time ASC'
+        $order2 = 'ORDER BY mf.poster_time ASC',
+        $use_sticky = false
     ) {
         global $settings, $scripturl, $txt, $user_info, $modSettings;
 
@@ -73,8 +74,8 @@ class FlarumStyle_Subs
             $exclude_boards = empty($exclude_boards) ? [] : (is_array($exclude_boards) ? $exclude_boards : array($exclude_boards));
 
         // Only some boards?.
-        if (is_array($include_boards) || (int) $include_boards === $include_boards)
-            $include_boards = is_array($include_boards) ? $include_boards : array($include_boards);
+        if (is_array($include_boards) || is_int($include_boards))
+            $include_boards = is_array($include_boards) ? $include_boards : [$include_boards];
         elseif ($include_boards != null)
         {
             $output_method = $include_boards;
@@ -119,7 +120,7 @@ class FlarumStyle_Subs
         // Find all the posts in distinct topics. Newer ones will have higher IDs.
         $request = $db->query('substring', '
             SELECT
-                ml.poster_time, mf.subject, ml.id_member, ml.id_msg, t.id_topic, t.num_replies, t.num_views, mg.online_color,
+                ml.poster_time, mf.subject, ml.id_member, ml.id_msg, t.id_topic, t.num_replies, t.num_views, t.is_sticky, mg.online_color,
                 IFNULL(mem.real_name, ml.poster_name) AS poster_name, ' . ($user_info['is_guest'] ? '1 AS is_read, 0 AS new_from' : '
                 IFNULL(lt.id_msg, IFNULL(lmr.id_msg, 0)) >= ml.id_msg_modified AS is_read,
                 IFNULL(lt.id_msg, IFNULL(lmr.id_msg, -1)) + 1 AS new_from') . ', SUBSTRING(ml.body, 1, 384) AS body, ml.smileys_enabled, ml.icon
@@ -184,6 +185,8 @@ class FlarumStyle_Subs
                 'new_from' => $row['new_from'],
                 'icon' => '<img src="' . $settings[$icon_sources[$row['icon']]] . '/post/' . $row['icon'] . '.png" style="vertical-align: middle;" alt="' . $row['icon'] . '" />',
                 'posted' => $row['num_replies'] ? $txt['flarumstyle_replied'] : $txt['flarumstyle_posted'],
+                'is_sticky' => $row['is_sticky'],
+                'use_sticky' => $use_sticky && $row['is_sticky'],
             );
         }
         $db->free_result($request);
@@ -223,9 +226,9 @@ class FlarumStyle_Subs
         $parents = [];
         $level = 0;
         while ($row = $db->fetch_assoc($result)) {
-            if (!empty($ids) && $level <= $row['child_level']) {
+            // if (!empty($ids) && $level <= $row['child_level']) {
                 // break;
-            }
+            // }
             if ($row['id_board'] == $id_board || in_array($row['id_parent'], $parents)) {
                 $ids[] = $row['id_board'];
                 $parents[] = $row['id_board'];
@@ -283,55 +286,82 @@ class FlarumStyle_Subs
             }
         }
         $db->free_result($result);
+        //print_r($boards);
 
         return $boards;
     }
 
+    /**
+      * @return bool
+      */
+    protected static function use_sticky($include_boards)
+    {
+        global $modSettings;
+
+        return !empty($modSettings['enableStickyTopics']) && $include_boards !== null;
+    }
+
     public static function lastTopics($start = 0, $num_recent = 8, $exclude_boards = null, $include_boards = null)
     {
+        $use_sticky = self::use_sticky($include_boards);
+        $sticky_desc = $use_sticky ? 'is_sticky DESC, ' : '';
+
         return self::parse_posts(
             $start,
             $num_recent,
             $exclude_boards,
             $include_boards,
-            $order1 = 'ORDER BY t.id_last_msg DESC',
-            $order2 = 'ORDER BY t.id_last_msg DESC'
+            $order1 = 'ORDER BY ' . $sticky_desc . 't.id_last_msg DESC',
+            $order2 = 'ORDER BY ' . $sticky_desc . 't.id_last_msg DESC',
+            $use_sticky
         );
     }
 
     public static function topTopics($start = 0, $num_recent = 8, $exclude_boards = null, $include_boards = null)
     {
+        $use_sticky = self::use_sticky($include_boards);
+        $sticky_desc = $use_sticky ? 'is_sticky DESC, ' : '';
+
         return self::parse_posts(
             $start,
             $num_recent,
             $exclude_boards,
             $include_boards,
-            $order1 = 'ORDER BY t.num_replies DESC, t.num_views DESC',
-            $order2 = 'ORDER BY t.num_replies DESC, t.num_views DESC'
+            $order1 = 'ORDER BY ' . $sticky_desc . 't.num_replies DESC, t.num_views DESC',
+            $order2 = 'ORDER BY ' . $sticky_desc . 't.num_replies DESC, t.num_views DESC',
+            $use_sticky
         );
     }
 
     public static function newTopics($start = 0, $num_recent = 8, $exclude_boards = null, $include_boards = null)
     {
+        $use_sticky = self::use_sticky($include_boards);
+        $sticky_desc = $use_sticky ? 'is_sticky DESC, ' : '';
+
         return self::parse_posts(
             $start,
             $num_recent,
             $exclude_boards,
             $include_boards,
-            $order1 = 'ORDER BY t.id_topic DESC',
-            $order2 = 'ORDER BY t.id_topic DESC'
+            $order1 = 'ORDER BY ' . $sticky_desc . 't.id_topic DESC',
+            $order2 = 'ORDER BY ' . $sticky_desc . 't.id_topic DESC',
+            $use_sticky
         );
     }
 
     public static function oldTopics($start = 0, $num_recent = 8, $exclude_boards = null, $include_boards = null)
     {
+        $use_sticky = self::use_sticky($include_boards);
+        $sticky_desc = $use_sticky ? 'is_sticky DESC, ' : '';
+
         return self::parse_posts(
             $start,
             $num_recent,
             $exclude_boards,
             $include_boards,
-            $order1 = 'ORDER BY ml.poster_time ASC',
-            $order2 = 'ORDER BY mf.poster_time ASC'
+            $order1 = 'ORDER BY ' . $sticky_desc . 'ml.poster_time ASC',
+            $order2 = 'ORDER BY ' . $sticky_desc . 'mf.poster_time ASC',
+            $use_sticky
         );
     }
 
