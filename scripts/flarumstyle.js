@@ -19,22 +19,27 @@ if (!String.prototype.endsWith) {
 
 (function($){
     $(document).ready(function(){
-        // Load more button
-        $(document).on('click', '.flarum-load-more-js', function(event){
+        // Refresh button
+        $('#flarum-refresh-btn').click(function(event) {
             event.preventDefault();
 
-            var loadingText = typeof(ajax_notification_text) !== 'undefined' ? ajax_notification_text : 'Loading ...';
-            var loadingHtml = '<div class="flarum-center flarum-loading"><i class="fa fa-spinner fa-pulse"></i> ' + loadingText + '</div>';
-            var url = this.href;
-            params = {};
-
             ajax_indicator(true);
-            $(this).hide();
-            var loadBox = $('div.flarum-load-more');
-            loadBox.append(loadingHtml);
+            var $a = $(this);
+            var board_id = 0;
+            var $board = $('#flarum-menu a.flarum-bold');
+            if ($board) {
+                board_id = parseInt($board.attr('data-flarum-board-id'), 10);
+            }
+            var sel = $('#flarum-select-sort :selected').val();
+            var url = elk_scripturl + '?action=flarumstyle;sa=ajax;gettopics=' + sel;
+            if (board_id) {
+                url += ';board=' + board_id;
+            }
+            // console.log(url);
 
-            $.get(url, params, function(data) {
-                $('div.flarum-topics-body').append(data);
+            $.get(url, {}, function(data) {
+                $('div.flarum-topics-body').html(data);
+                // console.log("Load was performed.");
             })
             .done(function() {
                 // console.log("second success");
@@ -45,6 +50,32 @@ if (!String.prototype.endsWith) {
             })
             .always(function() {
                 // console.log("finished");
+                ajax_indicator(false);
+            });
+        });
+
+        // Load more button
+        $(document).on('click', '.flarum-load-more-js', function(event){
+            event.preventDefault();
+
+            var $self = $(this);
+            var loadingText = typeof(ajax_notification_text) !== 'undefined' ? ajax_notification_text : 'Loading ...';
+            var loadingHtml = '<div class="flarum-center flarum-loading"><i class="fa fa-spinner fa-pulse"></i> ' + loadingText + '</div>';
+            var url = this.href;
+
+            ajax_indicator(true);
+            $self.hide();
+            var loadBox = $self.parent(); // div.flarum-load-more
+            loadBox.append(loadingHtml);
+
+            $.get(url, {}, function(data) {
+                $('div.flarum-topics-body').append(data);
+            })
+            .done(function() {})
+            .fail(function() {
+                $('#flarum-errorbox-topics').show().html('<div class="errorbox">Error loading data.</div>');
+            })
+            .always(function() {
                 ajax_indicator(false);
                 loadBox.remove();
             });
@@ -129,17 +160,12 @@ if (!String.prototype.endsWith) {
 
             $.get(url, params, function(data) {
                 $('div.flarum-topics-body').html(data);
-                // console.log("Load was performed.");
             })
-            .done(function() {
-                // console.log("second success");
-            })
+            .done(function() {})
             .fail(function() {
-                // console.log("error");
                 $('#flarum-errorbox-topics').show().html('<div class="errorbox">Error loading data.</div>');
             })
             .always(function() {
-                // console.log("finished");
                 ajax_indicator(false);
             });
 
@@ -162,8 +188,7 @@ if (!String.prototype.endsWith) {
             $.get(url, params, function(data) {
                 $('div.flarum-topics-body').html(data);
             })
-            .done(function() {
-            })
+            .done(function() {})
             .fail(function() {
                 $('#flarum-errorbox-topics').show().html('<div class="errorbox">Error loading data.</div>');
             })

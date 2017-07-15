@@ -2,11 +2,20 @@
 
 class FlarumStyle_Subs
 {
+    public static function json_response(array $data)
+    {
+        /*ob_end_clean();
+            ob_start('ob_gzhandler');*/
+        if (empty($data))
+            log_error('$data is empty!');
+        die(json_encode($data));
+    }
+
     public static function count_posts(
         $exclude_boards = null,
         $include_boards = null
     ) {
-        global $settings, $scripturl, $txt, $user_info, $modSettings;
+        global $modSettings;
 
         $db = database();
 
@@ -120,8 +129,8 @@ class FlarumStyle_Subs
         // Find all the posts in distinct topics. Newer ones will have higher IDs.
         $request = $db->query('substring', '
             SELECT
-                ml.poster_time, mf.subject, ml.id_member, ml.id_msg, t.id_topic, t.num_replies, t.num_views, t.is_sticky, mg.online_color,
-                IFNULL(mem.real_name, ml.poster_name) AS poster_name, ' . ($user_info['is_guest'] ? '1 AS is_read, 0 AS new_from' : '
+                ml.poster_time, mf.subject, ml.id_member, ml.id_msg, t.id_topic, t.num_replies, t.num_views, t.num_likes, t.locked, t.is_sticky,
+                mg.online_color, IFNULL(mem.real_name, ml.poster_name) AS poster_name, ' . ($user_info['is_guest'] ? '1 AS is_read, 0 AS new_from' : '
                 IFNULL(lt.id_msg, IFNULL(lmr.id_msg, 0)) >= ml.id_msg_modified AS is_read,
                 IFNULL(lt.id_msg, IFNULL(lmr.id_msg, -1)) + 1 AS new_from') . ', SUBSTRING(ml.body, 1, 384) AS body, ml.smileys_enabled, ml.icon
             FROM {db_prefix}topics AS t
@@ -170,8 +179,12 @@ class FlarumStyle_Subs
                 ),
                 'subject' => $row['subject'],
                 'flarum_board_color' => $topics[$row['id_topic']]['flarum_board_color'],
-                'replies' => $row['num_replies'],
-                'views' => $row['num_views'],
+                'replies' => self::number_format_short($row['num_replies']),
+                'views' => self::number_format_short($row['num_views']),
+                'likes' => self::number_format_short($row['num_likes']),
+                'num_replies' => $row['num_replies'],
+                'num_views' => $row['num_views'],
+                'num_likes' => $row['num_likes'],
                 'short_subject' => Util::shorten_text($row['subject'], 25),
                 'preview' => $row['body'],
                 'time' => standardTime($row['poster_time']),
@@ -187,6 +200,7 @@ class FlarumStyle_Subs
                 'posted' => $row['num_replies'] ? $txt['flarumstyle_replied'] : $txt['flarumstyle_posted'],
                 'is_sticky' => $row['is_sticky'],
                 'use_sticky' => $use_sticky && $row['is_sticky'],
+                'is_locked' => (bool) $row['locked'],
             );
         }
         $db->free_result($request);
@@ -211,7 +225,7 @@ class FlarumStyle_Subs
         return $posts;
     }
 
-    public static function getIdsTreeBoards($id_board)
+    public static function getIdTreeBoards($id_board)
     {
         $db = database();
         $result = $db->query('', '
@@ -327,8 +341,8 @@ class FlarumStyle_Subs
             $num_recent,
             $exclude_boards,
             $include_boards,
-            $order1 = 'ORDER BY ' . $sticky_desc . 't.num_replies DESC, t.num_views DESC',
-            $order2 = 'ORDER BY ' . $sticky_desc . 't.num_replies DESC, t.num_views DESC',
+            $order1 = 'ORDER BY ' . $sticky_desc . 't.num_replies DESC, t.num_views DESC, t.num_likes DESC',
+            $order2 = 'ORDER BY ' . $sticky_desc . 't.num_replies DESC, t.num_views DESC, t.num_likes DESC',
             $use_sticky
         );
     }
@@ -365,8 +379,12 @@ class FlarumStyle_Subs
         );
     }
 
-    public static function queryMembers($query_where = null, $query_where_params = [], $query_limit = '', $query_order = 'id_member DESC')
-    {
+    public static function queryMembers(
+        $query_where = null,
+        $query_where_params = [],
+        $query_limit = '',
+        $query_order = 'id_member DESC'
+    ) {
         global $memberContext;
 
         if ($query_where === null)
@@ -403,5 +421,39 @@ class FlarumStyle_Subs
 
         // Send back the data.
         return $query_members;
+    }
+
+    // https://gist.github.com/RadGH/84edff0cc81e6326029c
+    public static function number_format_short( $n, $precision = 1 )
+    {
+        if ($n < 900) {
+            // 0 - 900
+            $n_format = number_format($n, $precision);
+            $suffix = '';
+        } else if ($n < 900000) {
+            // 0.9k-850k
+            $n_format = number_format($n / 1000, $precision);
+            $suffix = 'K';
+        } else if ($n < 900000000) {
+            // 0.9m-850m
+            $n_format = number_format($n / 1000000, $precision);
+            $suffix = 'M';
+        } else if ($n < 900000000000) {
+            // 0.9b-850b
+            $n_format = number_format($n / 1000000000, $precision);
+            $suffix = 'B';
+        } else {
+            // 0.9t+
+            $n_format = number_format($n / 1000000000000, $precision);
+            $suffix = 'T';
+        }
+        // Remove unecessary zeroes after decimal. "1.0" -> "1"; "1.00" -> "1"
+        // Intentionally does not affect partials, eg "1.50" -> "1.50"
+        if ( $precision > 0 ) {
+            $dotzero = '.' . str_repeat( '0', $precision );
+            $n_format = str_replace( $dotzero, '', $n_format );
+        }
+
+        return $n_format . $suffix;
     }
 }

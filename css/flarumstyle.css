@@ -294,6 +294,65 @@ select.flarum-select-sort[disabled] {
     vertical-align: middle;
 }
 
+.flarum-topics-header-buttons {
+    float: right;
+    /*margin-right: 10px;*/
+}
+
+.flarum-topics-header-buttons a {
+    color: #667d99;
+}
+
+.flarum-button {
+    display: inline-block;
+    margin-bottom: 0;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    white-space: nowrap;
+    line-height: 20px;
+    padding: 8px 13px;
+    border-radius: 4px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    color: #7088a9;
+    background: #e8ecf3;
+    border: 0;
+    overflow: visible;
+    height: auto;
+    max-height: none;
+}
+
+.flarum-button:hover,
+.flarum-button:focus {
+    background-color: #d7dfea;
+    text-decoration: none;
+}
+.flarum-button:active {
+    background-color: #c6d2e2
+}
+.flarum-button.disabled,
+.flarum-button[disabled] {
+    background: #e7edf3
+}
+.flarum-button:active {
+    -webkit-box-shadow: inset 0 3px 5px rgba(0,0,0,0.125);
+    box-shadow: inset 0 3px 5px rgba(0,0,0,0.125);
+    outline: none
+}
+.flarum-button:focus {
+    outline: none
+}
+
+.flarum-button-icon {
+    width: 36px;
+    text-align: center;
+    padding: 8px 0;
+    font-size: 1rem;
+}
+
 .flarum-avatar img {
     float: left;
     margin-right: .5rem;
@@ -317,7 +376,7 @@ select.flarum-select-sort[disabled] {
 
 .flarum-topic-box {
     border-radius: 4px;
-    padding: 10px;
+    padding: 10px 0 10px 10px;
     margin: 0;
 }
 
@@ -345,7 +404,9 @@ select.flarum-select-sort[disabled] {
 }
 
 .flarum-body-topic a {
-    color: #201111;
+    color: #111;
+    /*font-weight: 600;
+    font-family: "Segoe UI Semibold", "Segoe UI", "Helvetica Neue Medium", "Helvetica Neue";*/
 }
 
 .flarum-board-labels {
@@ -434,7 +495,11 @@ a.flarum-load-more:focus {
 }
 
 /* sticky mod */
-.flarum-sticky {
+.flarum-topic-sticky strong {
+    font-weight: 600;
+}
+
+.flarum-sticky-icon {
     background-position: 0 -108px;
     background-image: url(../images/topic/topicicons.png);
     background-repeat: no-repeat;
@@ -444,3 +509,25 @@ a.flarum-load-more:focus {
     vertical-align: middle;
     width: 18px;
 }
+
+.flarum-lock-icon {
+    background-position: 0 -54px;
+    background-image: url(../images/topic/topicicons.png);
+    background-repeat: no-repeat;
+    content: "";
+    display: inline-block;
+    height: 16px;
+    vertical-align: middle;
+    width: 18px;
+}
+
+.flarum-topic-lock {
+    background: #f7f7f7;
+}
+
+/*
+.flarum-topic-lock .flarum-body-topic a {
+    color: #777;
+}
+*/
+

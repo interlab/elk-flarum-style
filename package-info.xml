@@ -1,20 +1,10 @@
 <?xml version="1.0"?>
 <!DOCTYPE package-info SYSTEM "http://www.elkarte.net/site/package-info">
-<!--
-/**
- * @package flarumstyle
- *
- * @author inter
- * @copyright 2017 inter
- * @license MIT
- * @version 0.3.0
- *
- */
--->
+
 <package-info xmlns="http://www.elkarte.net/site/package-info" xmlns:elk="http://www.elkarte.net/">
     <id>inter:flarumstyle</id>
     <name>FlarumStyle</name>
-    <version>0.3.0</version>
+    <version>0.4.0</version>
     <type>addon</type>
     <install for="1.0.1 - 1.0.99">
         <readme type="inline">This will install FlarumStyle Addon</readme>

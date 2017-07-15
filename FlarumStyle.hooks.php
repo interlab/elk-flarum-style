@@ -21,9 +21,9 @@ class FlarumStyle
             'function' => 'action_index'
         ];
 
-        if (file_exists(SOURCEDIR . '/libs/vendor/autoload.php')) {
-            require_once SOURCEDIR . '/libs/vendor/autoload.php';
-        }
+        // if (file_exists(SOURCEDIR . '/libs/vendor/autoload.php')) {
+            // require_once SOURCEDIR . '/libs/vendor/autoload.php';
+        // }
         require_once SUBSDIR.'/FlarumStyle.subs.php';
 
         loadLanguage('FlarumStyle');
@@ -105,6 +105,7 @@ class FlarumStyle
             ['check', 'flarumstyle_enabled', 'postinput' => ''],
             ['check', 'flarumstyle_show_search', 'postinput' => ''],
             ['check', 'flarumstyle_show_who', 'postinput' => ''],
+            ['check', 'flarumstyle_show_num_likes', 'postinput' => ''],
             ['int', 'flarumstyle_num_topics', 'postinput' => ''],
         ];
 

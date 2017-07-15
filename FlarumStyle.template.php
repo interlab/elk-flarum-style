@@ -7,7 +7,7 @@ function template_flarumstyle_empty()
 
 function template_flarumstyle_home()
 {
-    global $context, $scripturl, $txt, $modSettings;
+    global $context, $scripturl, $txt, $modSettings, $user_info;
 
     echo '
     <div class="flarum-flex-container">
@@ -21,15 +21,20 @@ function template_flarumstyle_home()
 
         foreach ($context['categories'] as $dummy => $board) {
             echo '
-        <li><a href="', $board['href'], '" title="', $board['description'], '" data-flarum-board-color="', $board['flarum_board_color'], '" data-flarum-board-id="', $board['id'], '"
-        data-flarum-redirect="', $board['redirect'], '"><span style="background-color: ', $board['flarum_board_color'], '" class="flarum-icon">
-            </span>', $board['name'], '
+        <li><a href="', $board['href'], '" title="', $board['description'], '" data-flarum-board-color="',
+        $board['flarum_board_color'], '" data-flarum-board-id="', $board['id'], '"
+        data-flarum-redirect="', $board['redirect'], '"><span',
+        (empty($board['flarum_board_color']) ? '' : ' style="background-color: '.
+        $board['flarum_board_color'] .';"'), ' class="flarum-icon"></span>', $board['name'], '
         </a></li>';
             if (isset($board['children'])) {
                 foreach ($board['children'] as $dummy_child => $child) {
                     echo '
-        <li><a href="', $child['href'], '" title="', $child['description'], '" data-flarum-board-color="', $child['flarum_board_color'], '" data-flarum-board-id="', $child['id'], '"
-        data-flarum-redirect="', $child['redirect'], '" class="flarum-board-child"><span style="background-color: ', $child['flarum_board_color'], '" class="flarum-icon"></span>', $child['name'], '
+        <li><a href="', $child['href'], '" title="', $child['description'], '" data-flarum-board-color="',
+        $child['flarum_board_color'], '" data-flarum-board-id="', $child['id'], '"
+        data-flarum-redirect="', $child['redirect'], '" class="flarum-board-child"><span',
+        (empty($child['flarum_board_color']) ? '' : ' style="background-color: '.
+        $child['flarum_board_color'] .';"'), ' class="flarum-icon"></span>', $child['name'], '
         </a></li>';
                 }
             }
@@ -56,15 +61,29 @@ function template_flarumstyle_home()
     </div>
     <div class="flarum-flex-item">
     <div class="flarum-topics-header">
-    <select class="flarum-select-sort" id="flarum-select-sort">
-        <option value="last">', $txt['flarumstyle_sort_last'], '</option>
-        <option value="top">', $txt['flarumstyle_sort_top'], '</option>
-        <option value="new">', $txt['flarumstyle_sort_new'], '</option>
-        <option value="old">', $txt['flarumstyle_sort_old'], '</option>
-    </select>
-    <i class="icon fa fa-fw fa-sort flarum-Select-caret"></i>
+        <select class="flarum-select-sort" id="flarum-select-sort">
+            <option value="last">', $txt['flarumstyle_sort_last'], '</option>
+            <option value="top">', $txt['flarumstyle_sort_top'], '</option>
+            <option value="new">', $txt['flarumstyle_sort_new'], '</option>
+            <option value="old">', $txt['flarumstyle_sort_old'], '</option>
+        </select>
+        <i class="icon fa fa-fw fa-sort flarum-Select-caret"></i>
+
+        <div class="flarum-topics-header-buttons">
+            <div class="flarum-button flarum-button-icon">
+                <a href="#" id="flarum-refresh-btn">
+                    <i class="fa fa-refresh" aria-hidden="true" title="Refresh"></i>
+                </a>
+            </div>', $user_info['is_admin'] ? '&nbsp;
+            <div class="flarum-button flarum-button-icon">
+                <a href="'. $scripturl .'?action=admin;area=addonsettings;sa=flarumstyle">
+                    <i class="fa fa-wrench" aria-hidden="true" title="Admin"></i>
+                </a>
+            </div>' : '', '
+        </div>
     </div>
     <div class="flarum-errorbox-topics" id="flarum-errorbox-topics"></div>
+    <div class="flarum-noticebox" id="flarum-noticebox" style="display: none;"></div>
     <div class="flarum-topics-body">';
 
     flarumstyleShowTopics($context['flarum-recent-topics']);
@@ -73,7 +92,9 @@ function template_flarumstyle_home()
         echo '
     <!--<div class="flarum-scroll">-->
         <div class="flarum-load-more">
-        <a href="', $context['flarum_load_more_url'], ';start=', $context['flarum_next_start'], '" class="jscroll-next flarum-load-more-js flarum-load-more">', $txt['flarumstyle_load_more'], '</a>
+        <a href="', $context['flarum_load_more_url'], ';start=', $context['flarum_next_start'], '" class="flarum-load-more-js flarum-load-more">',
+            $txt['flarumstyle_load_more'],
+        '</a>
         </div>
     <!--</div>-->';
     }
@@ -86,19 +107,42 @@ function template_flarumstyle_home()
 
 function flarumstyleShowTopics(array $topics)
 {
+    global $modSettings, $context, $txt;
+
+    $is_logged =& $context['user']['is_logged'];
+
     foreach ($topics as $topic) {
-        $topic['subject'] = $topic['use_sticky'] ? '<span class="flarum-sticky"></span> ' . '<strong>' . 
-            $topic['subject'] . '</strong>' : $topic['subject'];
+        if ($topic['is_new'] && $is_logged) {
+            $newicon = ' <a class="new_posts" href="'. $topic['href'] .'">'. $txt['new'] .'</a> ';
+        } else {
+            $newicon = '';
+        }
+
+        $lockicon = $topic['is_locked'] ? '<span class="flarum-lock-icon"></span> ' : '';
+
+        $topic['subject'] = $topic['use_sticky'] ? '<span class="flarum-sticky-icon"></span> '. $lockicon .
+        '<strong>'. $topic['icon'] .' '. $newicon .'<a href="'. $topic['href'] .'" class="flarum-topic-a">'. $topic['subject'] .'</a></strong>' :
+        $lockicon . $topic['icon'] .' '. $newicon .'<a href="'. $topic['href'] .'" class="flarum-topic-a">'. $topic['subject'] .'</a>';
+
         echo '
-        <div class="flarum-topic-box">
+        <div class="flarum-topic-box', empty($lockicon) ? '' : ' flarum-topic-lock', $topic['use_sticky'] ? ' flarum-topic-sticky' : '', '">
             <div class="flarum-body-topic">
-                <div class="flarum-avatar">', $topic['poster']['icon'], '</div> <a href="', $topic['href'], '" class="flarum-topic-a">', $topic['icon'], ' ', $topic['subject'], '</a>
-                <div class="flarum-right-info">
+                <div class="flarum-avatar">', $topic['poster']['icon'], '</div> ', $topic['subject'], '
+                <div class="flarum-right-info">';
+
+        if (!empty($modSettings['likes_enabled']) &&
+            !empty($modSettings['flarumstyle_show_num_likes'])
+        ) {
+            echo '
+                <div><i class="fa fa-thumbs-up" aria-hidden="true"></i> ', $topic['likes'], '</div>';
+        }
+
+        echo '
                 <div><i class="fa fa-eye" aria-hidden="true"></i> ', $topic['views'], '</div>
                 <div><i class="fa fa-comment-o" aria-hidden="true"></i> ', $topic['replies'], '</div>
                 <div class="flarum-board-labels"><span class="flarum-board-label"',
     (empty($topic['flarum_board_color']) ? '' : ' style="background-color: '.
-    $topic['flarum_board_color'].'"'), '><i class="fa fa-folder-o" aria-hidden="true"></i> ',
+    $topic['flarum_board_color'].';"'), '><i class="fa fa-folder-o" aria-hidden="true"></i> ',
     $topic['board']['link'], '</span></div>
                 </div>
             </div>

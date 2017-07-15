@@ -13,4 +13,4 @@ $txt['flarumstyle_sort_old'] = 'Старые темы';
 
 $txt['flarumstyle_posted'] = 'posted';
 $txt['flarumstyle_replied'] = 'replied';
-$txt['flarumstyle_load_more'] = 'Load More';
+$txt['flarumstyle_load_more'] = 'Ещё';

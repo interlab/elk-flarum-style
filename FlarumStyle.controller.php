@@ -125,7 +125,7 @@ class FlarumStyle_Controller
             echo '
         <!--<div class="flarum-scroll2">-->
             <div class="flarum-load-more">
-            <a href="', $context['flarum_load_more_url'], ';start=', $context['flarum_next_start'], '" class="jscroll-next flarum-load-more-js flarum-load-more">', 
+            <a href="', $context['flarum_load_more_url'], ';start=', $context['flarum_next_start'], '" class="flarum-load-more-js flarum-load-more">', 
                 $txt['flarumstyle_load_more'], '
             </a>
             </div>
