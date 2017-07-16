@@ -72,7 +72,7 @@ class FlarumStyle_Controller
         $include_boards = null;
 
         if (!empty($_GET['board'])) {
-            $include_boards = FlarumStyle_Subs::getIdsTreeBoards(intval($_GET['board']));
+            $include_boards = FlarumStyle_Subs::getIdTreeBoards(intval($_GET['board']));
             $exclude_boards = $exclude_boards ?: [];
         }
 

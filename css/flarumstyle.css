@@ -526,7 +526,7 @@ a.flarum-load-more:focus {
 }
 
 /*
-.flarum-topic-lock .flarum-body-topic a {
+.flarum-topic-lock .flarum-body-topic a:not(.new_posts) {
     color: #777;
 }
 */
