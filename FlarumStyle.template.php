@@ -5,6 +5,24 @@ function template_flarumstyle_empty()
     echo '';
 }
 
+function template_flarumstyle_topics()
+{
+    global $context, $txt;
+
+    flarumstyleShowTopics($context['flarum-topics']);
+
+    if ($context['flarum_is_next_start']) {
+        echo '
+    <!--<div class="flarum-scroll2">-->
+        <div class="flarum-load-more">
+        <a href="', $context['flarum_load_more_url'], ';start=', $context['flarum_next_start'], '" class="flarum-load-more-js flarum-load-more">', 
+            $txt['flarumstyle_load_more'], '
+        </a>
+        </div>
+    <!--</div>-->';
+    }
+}
+
 function template_flarumstyle_home()
 {
     global $context, $scripturl, $txt, $modSettings, $user_info;

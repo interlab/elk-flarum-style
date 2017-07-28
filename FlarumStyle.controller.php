@@ -117,21 +117,6 @@ class FlarumStyle_Controller
         $template_layers = Template_Layers::getInstance();
         $template_layers->removeAll();
         loadTemplate('FlarumStyle');
-        $context['sub_template'] = 'flarumstyle_empty';
-
-        flarumstyleShowTopics($context['flarum-topics']);
-
-        if ($context['flarum_is_next_start']) {
-            echo '
-        <!--<div class="flarum-scroll2">-->
-            <div class="flarum-load-more">
-            <a href="', $context['flarum_load_more_url'], ';start=', $context['flarum_next_start'], '" class="flarum-load-more-js flarum-load-more">', 
-                $txt['flarumstyle_load_more'], '
-            </a>
-            </div>
-        <!--</div>-->';
-        }
-
-        // die('');
+        $context['sub_template'] = 'flarumstyle_topics';
     }
 }

@@ -175,7 +175,8 @@ class FlarumStyle_Subs
                     'id' => $row['id_member'],
                     'name' => $row['poster_name'],
                     'href' => empty($row['id_member']) ? '' : $scripturl . '?action=profile;u=' . $row['id_member'],
-                    'link' => empty($row['id_member']) ? $row['poster_name'] : '<a href="' . $scripturl . '?action=profile;u=' . $row['id_member'] . '">' . $row['poster_name'] . '</a>'
+                    'link' => empty($row['id_member']) ? $row['poster_name'] : '<a href="' . $scripturl . '?action=profile;u=' . $row['id_member'] . '">' . $row['poster_name'] . '</a>',
+                    'icon' => '',
                 ),
                 'subject' => $row['subject'],
                 'flarum_board_color' => $topics[$row['id_topic']]['flarum_board_color'],
