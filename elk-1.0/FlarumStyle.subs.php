@@ -20,16 +20,15 @@ class FlarumStyle_Subs
         $db = database();
 
         if ($exclude_boards === null && !empty($modSettings['recycle_enable']) && $modSettings['recycle_board'] > 0)
-            $exclude_boards = array($modSettings['recycle_board']);
+            $exclude_boards = [$modSettings['recycle_board']];
         else
-            $exclude_boards = empty($exclude_boards) ? [] : (is_array($exclude_boards) ? $exclude_boards : array($exclude_boards));
+            $exclude_boards = empty($exclude_boards) ? [] : (is_array($exclude_boards) ? $exclude_boards : [$exclude_boards]);
 
         // Only some boards?.
         if (is_array($include_boards) || (int) $include_boards === $include_boards)
-            $include_boards = is_array($include_boards) ? $include_boards : array($include_boards);
+            $include_boards = is_array($include_boards) ? $include_boards : [$include_boards];
         elseif ($include_boards != null)
         {
-            $output_method = $include_boards;
             $include_boards = [];
         }
 
@@ -47,11 +46,11 @@ class FlarumStyle_Subs
                 AND t.approved = {int:is_approved}
                 AND ml.approved = {int:is_approved}' : '') . '
             LIMIT 1',
-            array(
+            [
                 'include_boards' => empty($include_boards) ? '' : $include_boards,
                 'exclude_boards' => empty($exclude_boards) ? '' : $exclude_boards,
                 'is_approved' => 1,
-            )
+            ]
         );
         $total = 0;
         $row = $db->fetch_row($request);
@@ -78,16 +77,15 @@ class FlarumStyle_Subs
         $db = database();
 
         if ($exclude_boards === null && !empty($modSettings['recycle_enable']) && $modSettings['recycle_board'] > 0)
-            $exclude_boards = array($modSettings['recycle_board']);
+            $exclude_boards = [$modSettings['recycle_board']];
         else
-            $exclude_boards = empty($exclude_boards) ? [] : (is_array($exclude_boards) ? $exclude_boards : array($exclude_boards));
+            $exclude_boards = empty($exclude_boards) ? [] : (is_array($exclude_boards) ? $exclude_boards : [$exclude_boards]);
 
         // Only some boards?.
         if (is_array($include_boards) || is_int($include_boards))
             $include_boards = is_array($include_boards) ? $include_boards : [$include_boards];
         elseif ($include_boards != null)
         {
-            $output_method = $include_boards;
             $include_boards = [];
         }
 
@@ -110,12 +108,12 @@ class FlarumStyle_Subs
                 AND ml.approved = {int:is_approved}' : '') . '
             ' . $order1 . '
             LIMIT ' . $start . ', ' . $num_recent,
-            array(
+            [
                 'include_boards' => empty($include_boards) ? '' : $include_boards,
                 'exclude_boards' => empty($exclude_boards) ? '' : $exclude_boards,
                 // 'min_message_id' => $modSettings['maxMsgID'] - 35 * min($num_recent, 5), // AND t.id_last_msg >= {int:min_message_id}
                 'is_approved' => 1,
-            )
+            ]
         );
         $topics = [];
         while ($row = $db->fetch_assoc($request))
@@ -142,47 +140,47 @@ class FlarumStyle_Subs
                 LEFT JOIN {db_prefix}membergroups AS mg ON (mg.id_group = mem.id_group)
             WHERE t.id_topic IN ({array_int:topic_list})
             ' . $order2,
-            array(
+            [
                 'current_member' => $user_info['id'],
                 'topic_list' => array_keys($topics),
-            )
+            ]
         );
 
         $posts = [];
         while ($row = $db->fetch_assoc($request))
         {
-            $row['body'] = strip_tags(strtr(parse_bbc($row['body'], $row['smileys_enabled'], $row['id_msg']), array('<br />' => '&#10;')));
+            $row['body'] = strip_tags(strtr(parse_bbc($row['body'], $row['smileys_enabled'], $row['id_msg']), ['<br />' => '&#10;']));
             if (Util::strlen($row['body']) > 128)
                 $row['body'] = Util::substr($row['body'], 0, 128) . '...';
 
-            // Censor the subject.
+            // Censor the subject
             censorText($row['subject']);
             censorText($row['body']);
 
             if (!empty($modSettings['messageIconChecks_enable']) && !isset($icon_sources[$row['icon']]))
                 $icon_sources[$row['icon']] = file_exists($settings['theme_dir'] . '/images/post/' . $row['icon'] . '.png') ? 'images_url' : 'default_images_url';
 
-            // Build the array.
-            $posts[] = array(
-                'board' => array(
+            // Build the array
+            $posts[] = [
+                'board' => [
                     'id' => $topics[$row['id_topic']]['id_board'],
                     'name' => $topics[$row['id_topic']]['board_name'],
                     'href' => $scripturl . '?board=' . $topics[$row['id_topic']]['id_board'] . '.0',
                     'link' => '<a href="' . $scripturl . '?board=' . $topics[$row['id_topic']]['id_board'] . '.0">' . $topics[$row['id_topic']]['board_name'] . '</a>',
-                ),
+                ],
                 'topic' => $row['id_topic'],
-                'poster' => array(
+                'poster' => [
                     'id' => $row['id_member'],
                     'name' => $row['poster_name'],
                     'href' => empty($row['id_member']) ? '' : $scripturl . '?action=profile;u=' . $row['id_member'],
                     'link' => empty($row['id_member']) ? $row['poster_name'] : '<a href="' . $scripturl . '?action=profile;u=' . $row['id_member'] . '">' . $row['poster_name'] . '</a>',
                     'icon' => '',
-                ),
+                ],
                 'subject' => $row['subject'],
                 'flarum_board_color' => $topics[$row['id_topic']]['flarum_board_color'],
-                'replies' => self::number_format_short($row['num_replies']),
-                'views' => self::number_format_short($row['num_views']),
-                'likes' => self::number_format_short($row['num_likes']),
+                'replies' => thousands_format($row['num_replies']),
+                'views' => thousands_format($row['num_views']),
+                'likes' => thousands_format($row['num_likes']),
                 'num_replies' => $row['num_replies'],
                 'num_views' => $row['num_views'],
                 'num_likes' => $row['num_likes'],
@@ -202,7 +200,7 @@ class FlarumStyle_Subs
                 'is_sticky' => $row['is_sticky'],
                 'use_sticky' => $use_sticky && $row['is_sticky'],
                 'is_locked' => (bool) $row['locked'],
-            );
+            ];
         }
         $db->free_result($request);
 
@@ -392,12 +390,12 @@ class FlarumStyle_Subs
             return;
 
         require_once(SUBSDIR . '/Members.subs.php');
-        $members_data = retrieveMemberData(array(
+        $members_data = retrieveMemberData([
             $query_where => $query_where_params,
             'limit' => !empty($query_limit) ? (int) $query_limit : 10,
             'order_by' => $query_order,
             'activated_status' => 1,
-        ));
+        ]);
 
         $members = [];
         foreach ($members_data['member_info'] as $row)
@@ -424,8 +422,22 @@ class FlarumStyle_Subs
         return $query_members;
     }
 
-    // https://gist.github.com/RadGH/84edff0cc81e6326029c
-    public static function number_format_short( $n, $precision = 1 )
+    /**
+     * 
+     * @param type $n
+     * @param type $precision
+     * @url https://gist.github.com/RadGH/84edff0cc81e6326029c
+     * @return string
+     * @deprecated since v0.6
+     */
+    public static function number_format_short($n, $precision = 1)
+    {
+        return thousands_format($n, $precision);
+    }
+}
+
+if (!function_exists('thousands_format')) {
+    function thousands_format($n, $precision = 1)
     {
         if ($n < 900) {
             // 0 - 900
@@ -458,3 +470,4 @@ class FlarumStyle_Subs
         return $n_format . $suffix;
     }
 }
+

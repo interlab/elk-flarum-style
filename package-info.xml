@@ -4,20 +4,20 @@
 <package-info xmlns="http://www.elkarte.net/site/package-info" xmlns:elk="http://www.elkarte.net/">
     <id>inter:flarumstyle</id>
     <name>FlarumStyle</name>
-    <version>0.4.2</version>
+    <version>0.5.0</version>
     <type>addon</type>
     <install for="1.0.1 - 1.0.99">
         <readme type="inline">This will install FlarumStyle Addon</readme>
-        <require-file name="FlarumStyle.hooks.php" destination="SOURCEDIR" />
-        <require-file name="FlarumStyle.subs.php" destination="SUBSDIR" />
-        <require-file name="FlarumStyle.controller.php" destination="CONTROLLERDIR" />
-        <require-file name="FlarumStyle.template.php" destination="THEMEDIR" />
-        <require-dir name="css" destination="THEMEDIR" />
-        <require-dir name="scripts" destination="THEMEDIR" />
-        <require-file name="languages/english/FlarumStyle.english.php" destination="LANGUAGEDIR/english" />
-        <require-file name="languages/english/FlarumStyleAdmin.english.php" destination="LANGUAGEDIR/english" />
-        <require-file name="languages/russian/FlarumStyle.russian.php" destination="LANGUAGEDIR/russian" />
-        <require-file name="languages/russian/FlarumStyleAdmin.russian.php" destination="LANGUAGEDIR/russian" />
+        <require-file name="/elk-1.0/FlarumStyle.hooks.php" destination="SOURCEDIR" />
+        <require-file name="/elk-1.0/FlarumStyle.subs.php" destination="SUBSDIR" />
+        <require-file name="/elk-1.0/FlarumStyle.controller.php" destination="CONTROLLERDIR" />
+        <require-file name="/elk-1.0/FlarumStyle.template.php" destination="THEMEDIR" />
+        <require-dir name="/elk-1.0/css" destination="THEMEDIR" />
+        <require-dir name="/elk-1.0/scripts" destination="THEMEDIR" />
+        <require-file name="/elk-1.0/languages/english/FlarumStyle.english.php" destination="LANGUAGEDIR/english" />
+        <require-file name="/elk-1.0/languages/english/FlarumStyleAdmin.english.php" destination="LANGUAGEDIR/english" />
+        <require-file name="/elk-1.0/languages/russian/FlarumStyle.russian.php" destination="LANGUAGEDIR/russian" />
+        <require-file name="/elk-1.0/languages/russian/FlarumStyleAdmin.russian.php" destination="LANGUAGEDIR/russian" />
         <hook hook="integrate_action_frontpage" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_action_frontpage" />
         <hook hook="integrate_actions" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_actions" />
         <hook hook="integrate_board_tree" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_board_tree" />
@@ -26,9 +26,9 @@
         <hook hook="integrate_save_board" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_save_board" />
         <hook hook="integrate_sa_modify_modifications" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_sa_modify_modifications" />
         <hook hook="integrate_admin_areas" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_admin_areas" />
-        <modification>install.xml</modification>
+        <modification>/elk-1.0/install.xml</modification>
         <!--<code>Hooks.php</code>-->
-        <database>install.php</database>
+        <database>/elk-1.0/install.php</database>
         <redirect url="?action=admin;area=addonsettings;sa=flarumstyle" timeout="500" />
     </install>
 
@@ -53,9 +53,58 @@
         <hook reverse="true" hook="integrate_save_board" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_save_board" />
         <hook  reverse="true" hook="integrate_sa_modify_modifications" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_sa_modify_modifications" />
         <hook  reverse="true" hook="integrate_admin_areas" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_admin_areas" />
-        <modification reverse="true">install.xml</modification>
-        <!--<code>Hooks.php</code>-->
-        <!--<database>uninstall.php</database>-->
+        <modification reverse="true">/elk-1.0/install.xml</modification>
+        <!--<code>/elk-1.0/Hooks.php</code>-->
+        <!--<database>/elk-1.0/uninstall.php</database>-->
+        <redirect url="?action=admin;area=packages" timeout="500" />
+    </uninstall>
+
+    <install for="1.1.0 - 1.1.99">
+        <readme type="inline">This will install FlarumStyle Addon for ElkArte 1.1</readme>
+        <require-file name="/elk-1.1/FlarumStyle.hooks.php" destination="SOURCEDIR" />
+        <require-file name="/elk-1.1/FlarumStyle.subs.php" destination="SUBSDIR" />
+        <require-file name="/elk-1.1/FlarumStyle.controller.php" destination="CONTROLLERDIR" />
+        <require-file name="/elk-1.1/FlarumStyle.template.php" destination="THEMEDIR" />
+        <require-dir name="/elk-1.1/css" destination="THEMEDIR" />
+        <require-dir name="/elk-1.1/scripts" destination="THEMEDIR" />
+        <require-file name="/elk-1.1/languages/english/FlarumStyle.english.php" destination="LANGUAGEDIR/english" />
+        <require-file name="/elk-1.1/languages/english/FlarumStyleAdmin.english.php" destination="LANGUAGEDIR/english" />
+        <require-file name="/elk-1.1/languages/russian/FlarumStyle.russian.php" destination="LANGUAGEDIR/russian" />
+        <require-file name="/elk-1.1/languages/russian/FlarumStyleAdmin.russian.php" destination="LANGUAGEDIR/russian" />
+
+        <hook hook="integrate_actions" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_actions" />
+        <hook hook="integrate_board_tree" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_board_tree" />
+        <hook hook="integrate_board_tree_query" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_board_tree_query" />
+        <hook hook="integrate_modify_board" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_modify_board" />
+        <hook hook="integrate_save_board" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_save_board" />
+        <hook hook="integrate_sa_modify_modifications" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_sa_modify_modifications" />
+        <hook hook="integrate_admin_areas" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_admin_areas" />
+        <modification>/elk-1.1/install.xml</modification>
+        <database>/elk-1.1/install.php</database>
+        <redirect url="?action=admin;area=addonsettings;sa=flarumstyle" timeout="500" />
+    </install>
+
+    <uninstall for="1.1.0 - 1.1.99">
+        <readme type="inline">This will uninstall FlarumStyle Addon for ElkArte 1.1</readme>
+        <remove-file name="SOURCEDIR/FlarumStyle.hooks.php" />
+        <remove-file name="SUBSDIR/FlarumStyle.subs.php" />
+        <remove-file name="CONTROLLERDIR/FlarumStyle.controller.php" />
+        <remove-file name="THEMEDIR/FlarumStyle.template.php" />
+        <remove-file name="THEMEDIR/css/flarumstyle.css" />
+        <remove-file name="THEMEDIR/scripts/flarumstyle.js" />
+        <remove-file name="LANGUAGEDIR/english/FlarumStyle.english.php" />
+        <remove-file name="LANGUAGEDIR/english/FlarumStyleAdmin.english.php" />
+        <remove-file name="LANGUAGEDIR/russian/FlarumStyle.russian.php" />
+        <remove-file name="LANGUAGEDIR/russian/FlarumStyleAdmin.russian.php" />
+
+        <hook reverse="true" hook="integrate_actions" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_actions" />
+        <hook reverse="true" hook="integrate_board_tree" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_board_tree" />
+        <hook reverse="true" hook="integrate_board_tree_query" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_board_tree_query" />
+        <hook reverse="true" hook="integrate_modify_board" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_modify_board" />
+        <hook reverse="true" hook="integrate_save_board" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_save_board" />
+        <hook  reverse="true" hook="integrate_sa_modify_modifications" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_sa_modify_modifications" />
+        <hook  reverse="true" hook="integrate_admin_areas" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_admin_areas" />
+        <modification reverse="true">/elk-1.1/install.xml</modification>
         <redirect url="?action=admin;area=packages" timeout="500" />
     </uninstall>
 </package-info>

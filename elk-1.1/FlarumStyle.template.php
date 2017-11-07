@@ -59,7 +59,7 @@ function template_flarumstyle_home()
         }
 
      echo '
-     </ul>';
+     </ul><!-- end ul#flarum-menu -->';
 
     if (!empty($modSettings['flarumstyle_show_search'])) {
         echo '
@@ -76,7 +76,7 @@ function template_flarumstyle_home()
     }
 
     echo '
-    </div>
+    </div><!-- end div.flarum-flex-item -->
     <div class="flarum-flex-item">
     <div class="flarum-topics-header">
         <select class="flarum-select-sort" id="flarum-select-sort">
@@ -118,9 +118,9 @@ function template_flarumstyle_home()
     }
 
     echo '
-    </div>
-    </div>
-    </div>';
+    </div><!-- end div.flarum-topics-body -->
+    </div><!-- end div.flarum-flex-item -->
+    </div><!-- end div.flarum-flex-container -->';
 }
 
 function flarumstyleShowTopics(array $topics)
@@ -146,28 +146,26 @@ function flarumstyleShowTopics(array $topics)
         <div class="flarum-topic-box', empty($lockicon) ? '' : ' flarum-topic-lock', $topic['use_sticky'] ? ' flarum-topic-sticky' : '', '">
             <div class="flarum-body-topic">
                 <div class="flarum-avatar">', $topic['poster']['icon'], '</div> ', $topic['subject'], '
-                <div class="flarum-right-info">';
-
+                <ul class="flarum-right-info">
+                    <li class="flarum-board-labels"><span class="flarum-board-label"',
+    (empty($topic['flarum_board_color']) ? '' : ' style="background-color: '.
+    $topic['flarum_board_color'].';"'), '><i class="fa fa-folder-o" aria-hidden="true"></i> ',
+    $topic['board']['link'], '</span></li>
+                    <li><i class="fa fa-comment-o" aria-hidden="true"></i> ', $topic['replies'], '</li>
+                    <li><i class="fa fa-eye" aria-hidden="true"></i> ', $topic['views'], '</li>';
         if (!empty($modSettings['likes_enabled']) &&
             !empty($modSettings['flarumstyle_show_num_likes'])
         ) {
             echo '
-                <div><i class="fa fa-thumbs-up" aria-hidden="true"></i> ', $topic['likes'], '</div>';
+                    <li><i class="fa fa-thumbs-up" aria-hidden="true"></i> ', $topic['likes'], '</li>';
         }
-
         echo '
-                <div><i class="fa fa-eye" aria-hidden="true"></i> ', $topic['views'], '</div>
-                <div><i class="fa fa-comment-o" aria-hidden="true"></i> ', $topic['replies'], '</div>
-                <div class="flarum-board-labels"><span class="flarum-board-label"',
-    (empty($topic['flarum_board_color']) ? '' : ' style="background-color: '.
-    $topic['flarum_board_color'].';"'), '><i class="fa fa-folder-o" aria-hidden="true"></i> ',
-    $topic['board']['link'], '</span></div>
-                </div>
-            </div>
+                </ul><!-- end ul.flarum-right-info -->
+            </div><!-- end div.flarum-body-topic -->
             <div class="flarum-footer-topic">
                 <strong><i class="fa fa-user" aria-hidden="true"></i> ', $topic['poster']['link'], '</strong> ', $topic['posted'], ' ', $topic['time'], '
-            </div>
-        </div>';
+            </div><!-- end div.flarum-footer-topic --> 
+        </div><!-- end div.flarum-topic-box -->';
     }
 }
 

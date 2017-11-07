@@ -394,13 +394,17 @@ select.flarum-select-sort[disabled] {
     */
 }
 
-.flarum-right-info {
+ul.flarum-right-info {
     float: right;
 }
 
-.flarum-right-info div {
-    float: right;
-    margin: 0 4px;
+ul.flarum-right-info li {
+    margin: 0 3px;
+    display: inline-block;
+}
+
+ul.flarum-right-info li i {
+    /* vertical-align: sub; */
 }
 
 .flarum-body-topic a {
