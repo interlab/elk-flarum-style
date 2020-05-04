@@ -126,6 +126,7 @@ class FlarumStyle_Controller extends Action_Controller implements Frontpage_Inte
     {
         global $context, $scripturl, $txt;
 
+        header('Access-Control-Allow-Origin: *');
         $num_recent = $this->num_topics;
         $exclude_boards = null;
         $include_boards = null;

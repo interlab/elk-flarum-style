@@ -67,6 +67,7 @@ class FlarumStyle_Controller
     {
         global $context, $scripturl, $txt;
 
+        header('Access-Control-Allow-Origin: *');
         $num_recent = $this->num_topics;
         $exclude_boards = null;
         $include_boards = null;
