@@ -4,7 +4,7 @@
 <package-info xmlns="http://www.elkarte.net/site/package-info" xmlns:elk="http://www.elkarte.net/">
     <id>inter:flarumstyle</id>
     <name>FlarumStyle</name>
-    <version>0.5.1</version>
+    <version>0.5.2</version>
     <type>addon</type>
     <install for="1.0.1 - 1.0.99">
         <readme type="inline">This will install FlarumStyle Addon</readme>
@@ -18,6 +18,8 @@
         <require-file name="/elk-1.0/languages/english/FlarumStyleAdmin.english.php" destination="LANGUAGEDIR/english" />
         <require-file name="/elk-1.0/languages/russian/FlarumStyle.russian.php" destination="LANGUAGEDIR/russian" />
         <require-file name="/elk-1.0/languages/russian/FlarumStyleAdmin.russian.php" destination="LANGUAGEDIR/russian" />
+        <require-file name="/elk-1.0/languages/french/FlarumStyle.french.php" destination="LANGUAGEDIR/french" />
+        <require-file name="/elk-1.0/languages/french/FlarumStyleAdmin.french.php" destination="LANGUAGEDIR/french" />
         <hook hook="integrate_action_frontpage" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_action_frontpage" />
         <hook hook="integrate_actions" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_actions" />
         <hook hook="integrate_board_tree" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_board_tree" />
@@ -45,6 +47,8 @@
         <remove-file name="LANGUAGEDIR/english/FlarumStyleAdmin.english.php" />
         <remove-file name="LANGUAGEDIR/russian/FlarumStyle.russian.php" />
         <remove-file name="LANGUAGEDIR/russian/FlarumStyleAdmin.russian.php" />
+        <remove-file name="LANGUAGEDIR/french/FlarumStyle.french.php" />
+        <remove-file name="LANGUAGEDIR/french/FlarumStyleAdmin.french.php" />
         <hook reverse="true" hook="integrate_action_frontpage" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_action_frontpage" />
         <hook reverse="true" hook="integrate_actions" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_actions" />
         <hook reverse="true" hook="integrate_board_tree" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_board_tree" />
@@ -71,6 +75,8 @@
         <require-file name="/elk-1.1/languages/english/FlarumStyleAdmin.english.php" destination="LANGUAGEDIR/english" />
         <require-file name="/elk-1.1/languages/russian/FlarumStyle.russian.php" destination="LANGUAGEDIR/russian" />
         <require-file name="/elk-1.1/languages/russian/FlarumStyleAdmin.russian.php" destination="LANGUAGEDIR/russian" />
+        <require-file name="/elk-1.1/languages/french/FlarumStyle.french.php" destination="LANGUAGEDIR/french" />
+        <require-file name="/elk-1.1/languages/french/FlarumStyleAdmin.french.php" destination="LANGUAGEDIR/french" />
 
         <hook hook="integrate_actions" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_actions" />
         <hook hook="integrate_board_tree" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_board_tree" />
@@ -96,6 +102,8 @@
         <remove-file name="LANGUAGEDIR/english/FlarumStyleAdmin.english.php" />
         <remove-file name="LANGUAGEDIR/russian/FlarumStyle.russian.php" />
         <remove-file name="LANGUAGEDIR/russian/FlarumStyleAdmin.russian.php" />
+        <remove-file name="LANGUAGEDIR/french/FlarumStyle.french.php" />
+        <remove-file name="LANGUAGEDIR/french/FlarumStyleAdmin.french.php" />
 
         <hook reverse="true" hook="integrate_actions" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_actions" />
         <hook reverse="true" hook="integrate_board_tree" file="SOURCEDIR/FlarumStyle.hooks.php" function="FlarumStyle::integrate_board_tree" />

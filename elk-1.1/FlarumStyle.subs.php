@@ -90,7 +90,7 @@ class FlarumStyle_Subs
         }
 
         require_once(SUBSDIR . '/MessageIndex.subs.php');
-        $icon_sources = MessageTopicIcons();
+        $icon_sources = new MessageTopicIcons(!empty($modSettings['messageIconChecks_enable']), $settings['theme_dir']);
 
         // Find all the posts in distinct topics. Newer ones will have higher IDs.
         $request = $db->query('', '
@@ -157,9 +157,6 @@ class FlarumStyle_Subs
             censorText($row['subject']);
             censorText($row['body']);
 
-            if (!empty($modSettings['messageIconChecks_enable']) && !isset($icon_sources[$row['icon']]))
-                $icon_sources[$row['icon']] = file_exists($settings['theme_dir'] . '/images/post/' . $row['icon'] . '.png') ? 'images_url' : 'default_images_url';
-
             // Build the array
             $posts[] = [
                 'board' => [
@@ -195,7 +192,7 @@ class FlarumStyle_Subs
                 'new' => !empty($row['is_read']),
                 'is_new' => empty($row['is_read']),
                 'new_from' => $row['new_from'],
-                'icon' => '<img src="' . $settings[$icon_sources[$row['icon']]] . '/post/' . $row['icon'] . '.png" style="vertical-align: middle;" alt="' . $row['icon'] . '" />',
+                'icon' => '<img src="' . $icon_sources->{$row['icon']} . '" style="vertical-align: middle;" alt="' . $row['icon'] . '" />',
                 'posted' => $row['num_replies'] ? $txt['flarumstyle_replied'] : $txt['flarumstyle_posted'],
                 'is_sticky' => $row['is_sticky'],
                 'use_sticky' => $use_sticky && $row['is_sticky'],
