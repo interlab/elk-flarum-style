@@ -81,6 +81,10 @@ class FlarumStyle
             ['check', 'flarumstyle_show_who', 'postinput' => ''],
             ['check', 'flarumstyle_show_num_likes', 'postinput' => ''],
             ['int', 'flarumstyle_num_topics', 'postinput' => ''],
+            ['select', 'flarumstyle_message_icon', [
+                'flarumstyle_first_icon' => $txt['flarumstyle_first_message'],
+                'flarumstyle_last_icon' => $txt['flarumstyle_last_message']
+            ]],
         ];
 
         // Load the settings to the form class

@@ -124,13 +124,15 @@ class FlarumStyle_Subs
         if (empty($topics))
             return [];
 
+        $message_icon = $modSettings['flarumstyle_message_icon'] === 'flarumstyle_first_icon' ? 'mf.icon' : 'ml.icon';
+
         // Find all the posts in distinct topics. Newer ones will have higher IDs.
         $request = $db->query('substring', '
             SELECT
                 ml.poster_time, mf.subject, ml.id_member, ml.id_msg, t.id_topic, t.num_replies, t.num_views, t.num_likes, t.locked, t.is_sticky,
                 mg.online_color, IFNULL(mem.real_name, ml.poster_name) AS poster_name, ' . ($user_info['is_guest'] ? '1 AS is_read, 0 AS new_from' : '
                 IFNULL(lt.id_msg, IFNULL(lmr.id_msg, 0)) >= ml.id_msg_modified AS is_read,
-                IFNULL(lt.id_msg, IFNULL(lmr.id_msg, -1)) + 1 AS new_from') . ', SUBSTRING(ml.body, 1, 384) AS body, ml.smileys_enabled, ml.icon
+                IFNULL(lt.id_msg, IFNULL(lmr.id_msg, -1)) + 1 AS new_from') . ', ml.smileys_enabled, ' . $message_icon . '
             FROM {db_prefix}topics AS t
                 INNER JOIN {db_prefix}messages AS ml ON (ml.id_msg = t.id_last_msg)
                 INNER JOIN {db_prefix}messages AS mf ON (mf.id_msg = t.id_first_msg)
@@ -149,13 +151,8 @@ class FlarumStyle_Subs
         $posts = [];
         while ($row = $db->fetch_assoc($request))
         {
-            $row['body'] = strip_tags(strtr(parse_bbc($row['body'], $row['smileys_enabled'], $row['id_msg']), ['<br />' => '&#10;']));
-            if (Util::strlen($row['body']) > 128)
-                $row['body'] = Util::substr($row['body'], 0, 128) . '...';
-
             // Censor the subject
             censorText($row['subject']);
-            censorText($row['body']);
 
             if (!empty($modSettings['messageIconChecks_enable']) && !isset($icon_sources[$row['icon']]))
                 $icon_sources[$row['icon']] = file_exists($settings['theme_dir'] . '/images/post/' . $row['icon'] . '.png') ? 'images_url' : 'default_images_url';
@@ -185,7 +182,6 @@ class FlarumStyle_Subs
                 'num_views' => $row['num_views'],
                 'num_likes' => $row['num_likes'],
                 'short_subject' => Util::shorten_text($row['subject'], 25),
-                'preview' => $row['body'],
                 'time' => standardTime($row['poster_time']),
                 'html_time' => htmlTime($row['poster_time']),
                 'timestamp' => forum_time(true, $row['poster_time']),
