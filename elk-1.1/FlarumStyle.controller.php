@@ -57,8 +57,6 @@ class FlarumStyle_Controller extends Action_Controller implements Frontpage_Inte
         $this->num_topics = empty($modSettings['flarumstyle_num_topics']) ?
             $this->num_topics :
             $modSettings['flarumstyle_num_topics'];
-
-        $modSettings['require_font-awesome'] = true;
     }
 
     // run after loadTheme

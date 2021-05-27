@@ -33,8 +33,8 @@ function template_flarumstyle_home()
     <div class="flarum-left-header"><a href="" class="flarum-start-discussion" id="flarum-start-discussion">', $txt['flarumstyle_newtopic'], '</a></div>
 
     <ul class="flarum-menu" id="flarum-menu">
-        <li><a href="', $scripturl, '" class="flarum-bold"><i class="flarum-bold flarum-icon-alltopics fa fa-comments-o"></i> ', $txt['flarumstyle_all_topics'], '</a></li>
-        <li><a href="', $scripturl, '?action=boardindex"><i class="fa fa-list flarum-icon-alltopics" aria-hidden="true"></i> ', $txt['flarumstyle_all_cats'], '</a></li>
+        <li><a href="', $scripturl, '" class="flarum-bold"><i class="flarum-icon-alltopics flar-comments-o"></i> ', $txt['flarumstyle_all_topics'], '</a></li>
+        <li><a href="', $scripturl, '?action=boardindex"><i class="flarum-icon-alltopics flar-list" aria-hidden="true"></i> ', $txt['flarumstyle_all_cats'], '</a></li>
         <li class="flarum-li-ropdown-separator"></li>';
 
         foreach ($context['categories'] as $dummy => $board) {
@@ -85,17 +85,17 @@ function template_flarumstyle_home()
             <option value="new">', $txt['flarumstyle_sort_new'], '</option>
             <option value="old">', $txt['flarumstyle_sort_old'], '</option>
         </select>
-        <i class="icon fa fa-fw fa-sort flarum-Select-caret"></i>
+        <i class="icon flar-sort flarum-Select-caret"></i>
 
         <div class="flarum-topics-header-buttons">
             <div class="flarum-button flarum-button-icon">
                 <a href="#" id="flarum-refresh-btn">
-                    <i class="fa fa-refresh" aria-hidden="true" title="Refresh"></i>
+                    <i class="flar-refresh" aria-hidden="true" title="Refresh"></i>
                 </a>
             </div>', $user_info['is_admin'] ? '&nbsp;
             <div class="flarum-button flarum-button-icon">
                 <a href="'. $scripturl .'?action=admin;area=addonsettings;sa=flarumstyle">
-                    <i class="fa fa-wrench" aria-hidden="true" title="Admin"></i>
+                    <i class="flar-wrench" aria-hidden="true" title="Admin"></i>
                 </a>
             </div>' : '', '
         </div>
@@ -128,6 +128,7 @@ function flarumstyleShowTopics(array $topics)
     global $modSettings, $context, $txt;
 
     $is_logged =& $context['user']['is_logged'];
+    $likes_on = !empty($modSettings['likes_enabled']) && !empty($modSettings['flarumstyle_show_num_likes']);
 
     foreach ($topics as $topic) {
         if ($topic['is_new'] && $is_logged) {
@@ -151,19 +152,18 @@ function flarumstyleShowTopics(array $topics)
     (empty($topic['flarum_board_color']) ? '' : ' style="background-color: '.
     $topic['flarum_board_color'].';"'), '><i class="fa fa-folder-o" aria-hidden="true"></i> ',
     $topic['board']['link'], '</span></li>
-                    <li><i class="fa fa-comment-o" aria-hidden="true"></i> ', $topic['replies'], '</li>
-                    <li><i class="fa fa-eye" aria-hidden="true"></i> ', $topic['views'], '</li>';
-        if (!empty($modSettings['likes_enabled']) &&
-            !empty($modSettings['flarumstyle_show_num_likes'])
-        ) {
+                    <li><i class="flar-comment-o" aria-hidden="true"></i> ', $topic['replies'], '</li>
+
+                    <li><i class="flar-eye" aria-hidden="true"></i> ', $topic['views'], '</li>';
+        if ($likes_on) {
             echo '
-                    <li><i class="fa fa-thumbs-up" aria-hidden="true"></i> ', $topic['likes'], '</li>';
+                    <li><i class="flar-thumbs-o-up" aria-hidden="true"></i> ', $topic['likes'], '</li>';
         }
         echo '
                 </ul><!-- end ul.flarum-right-info -->
             </div><!-- end div.flarum-body-topic -->
             <div class="flarum-footer-topic">
-                <strong><i class="fa fa-user" aria-hidden="true"></i> ', $topic['poster']['link'], '</strong> ', $topic['posted'], ' ', $topic['time'], '
+                <span class=flar-user> ', $topic['poster']['link'], '</span> ', $topic['posted'], ' ', $topic['time'], '
             </div><!-- end div.flarum-footer-topic --> 
         </div><!-- end div.flarum-topic-box -->';
     }
