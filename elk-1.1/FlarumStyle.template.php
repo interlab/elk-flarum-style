@@ -85,7 +85,7 @@ function template_flarumstyle_home()
             <option value="new">', $txt['flarumstyle_sort_new'], '</option>
             <option value="old">', $txt['flarumstyle_sort_old'], '</option>
         </select>
-        <i class="icon flar-sort flarum-Select-caret"></i>
+        <i class="icon flar-sort flarum-Select-caret" aria-hidden="true"></i>
 
         <div class="flarum-topics-header-buttons">
             <div class="flarum-button flarum-button-icon">
@@ -163,7 +163,7 @@ function flarumstyleShowTopics(array $topics)
                 </ul><!-- end ul.flarum-right-info -->
             </div><!-- end div.flarum-body-topic -->
             <div class="flarum-footer-topic">
-                <span class=flar-user> ', $topic['poster']['link'], '</span> ', $topic['posted'], ' ', $topic['time'], '
+                <span class="flar-user" aria-hidden="true"> ', $topic['poster']['link'], '</span> ', $topic['posted'], ' ', $topic['time'], '
             </div><!-- end div.flarum-footer-topic --> 
         </div><!-- end div.flarum-topic-box -->';
     }
