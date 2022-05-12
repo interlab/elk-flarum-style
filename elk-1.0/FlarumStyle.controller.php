@@ -36,16 +36,17 @@ class FlarumStyle_Controller
         $context['show_who'] = allowedTo('who_view') && !empty($modSettings['who_enabled']);
 
         $total = FlarumStyle_Subs::count_posts();
-        $context['start'] = $_REQUEST['start'];
-        $context['flarum_is_next_start'] = intval($_REQUEST['start']) + $this->num_topics < $total;
+        $start = (int) (empty($_GET['start']) ? 0 : $_GET['start']);
+        $context['start'] = $start;
+        $context['flarum_is_next_start'] = $start + $this->num_topics < $total;
         $url = $scripturl.'?action=flarumstyle;sa=ajax;gettopics=last';
         if (!empty($_REQUEST['board'])) {
             $url .= ';board=' . $_REQUEST['board'];
         }
         $context['flarum_load_more_url'] = $url;
-        $context['flarum_next_start'] = $context['start'] + $this->num_topics;
+        $context['flarum_next_start'] = $start + $this->num_topics;
 
-        $context['flarum-recent-topics'] = FlarumStyle_Subs::lastTopics($context['start'], $this->num_topics, null, null);
+        $context['flarum-recent-topics'] = FlarumStyle_Subs::lastTopics($start, $this->num_topics, null, null);
     }
 
     protected function parse_sa_request()
@@ -77,8 +78,8 @@ class FlarumStyle_Controller
             $exclude_boards = $exclude_boards ?: [];
         }
 
-        $_GET['start'] = empty($_GET['start']) ? 0 : $_GET['start'];
-        $context['start'] = $_GET['start'];
+        $start = (int) (empty($_GET['start']) ? 0 : $_GET['start']);
+        $context['start'] = $start;
         $url = $scripturl.'?action=flarumstyle;sa=ajax;gettopics=';
         $total = FlarumStyle_Subs::count_posts($exclude_boards, $include_boards);
         $context['flarum-topics'] = [];
@@ -89,19 +90,19 @@ class FlarumStyle_Controller
 
         if ($sort === 'last') {
             $url .= 'last';
-            $context['flarum-topics'] = FlarumStyle_Subs::lastTopics($context['start'], $num_recent, $exclude_boards, $include_boards);
+            $context['flarum-topics'] = FlarumStyle_Subs::lastTopics($start, $num_recent, $exclude_boards, $include_boards);
         }
         elseif ($sort === 'top') {
             $url .= 'top';
-            $context['flarum-topics'] = FlarumStyle_Subs::topTopics($context['start'], $num_recent, $exclude_boards, $include_boards);
+            $context['flarum-topics'] = FlarumStyle_Subs::topTopics($start, $num_recent, $exclude_boards, $include_boards);
         }
         elseif ($sort === 'new') {
             $url .= 'new';
-            $context['flarum-topics'] = FlarumStyle_Subs::newTopics($context['start'], $num_recent, $exclude_boards, $include_boards);
+            $context['flarum-topics'] = FlarumStyle_Subs::newTopics($start, $num_recent, $exclude_boards, $include_boards);
         }
         elseif ($sort === 'old') {
             $url .= 'old';
-            $context['flarum-topics'] = FlarumStyle_Subs::oldTopics($context['start'], $num_recent, $exclude_boards, $include_boards);
+            $context['flarum-topics'] = FlarumStyle_Subs::oldTopics($start, $num_recent, $exclude_boards, $include_boards);
         } else {
             die('Error: Unknown request.');
         }
@@ -110,7 +111,7 @@ class FlarumStyle_Controller
             $url .= ';board=' . $_GET['board'];
         }
         $context['flarum_load_more_url'] = $url;
-        $context['flarum_next_start'] = $context['start'] + $this->num_topics;
+        $context['flarum_next_start'] = $start + $this->num_topics;
 
         // friendly URLs
         ob_start('ob_sessrewrite');

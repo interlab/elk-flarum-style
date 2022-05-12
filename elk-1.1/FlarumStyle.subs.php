@@ -107,12 +107,14 @@ class FlarumStyle_Subs
                 AND t.approved = {int:is_approved}
                 AND ml.approved = {int:is_approved}' : '') . '
             ' . $order1 . '
-            LIMIT ' . $start . ', ' . $num_recent,
+            LIMIT {int:start}, {int:limit}',
             [
                 'include_boards' => empty($include_boards) ? '' : $include_boards,
                 'exclude_boards' => empty($exclude_boards) ? '' : $exclude_boards,
                 // 'min_message_id' => $modSettings['maxMsgID'] - 35 * min($num_recent, 5), // AND t.id_last_msg >= {int:min_message_id}
                 'is_approved' => 1,
+                'start' => $start,
+                'limit' => $num_recent,
             ]
         );
         $topics = [];
