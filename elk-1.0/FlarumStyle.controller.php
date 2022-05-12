@@ -106,7 +106,7 @@ class FlarumStyle_Controller
         } else {
             die('Error: Unknown request.');
         }
-        $context['flarum_is_next_start'] = intval($_GET['start']) + $this->num_topics < $total;
+        $context['flarum_is_next_start'] = $start + $this->num_topics < $total;
         if (!empty($_GET['board'])) {
             $url .= ';board=' . $_GET['board'];
         }
